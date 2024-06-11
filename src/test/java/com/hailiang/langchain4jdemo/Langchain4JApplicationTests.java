@@ -12,15 +12,19 @@ import com.hailiang.langchain4jdemo.response.enu.SentimentEnum;
 import com.hailiang.langchain4jdemo.response.pojo.Person;
 import com.hailiang.langchain4jdemo.response.pojo.Persons;
 import com.hailiang.langchain4jdemo.tools.Calculator;
+import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.store.embedding.EmbeddingStore;
+import dev.langchain4j.store.embedding.elasticsearch.ElasticsearchEmbeddingStore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +40,10 @@ class Langchain4JApplicationTests {
     private ChatLanguageModel chatModel;
     @Autowired
     private StreamingChatLanguageModel streamingChatModel;
+    @Autowired
+    private EmbeddingModel embeddingModel;
+    @Autowired
+    private ElasticsearchEmbeddingStore embeddingStore;
 
 
     /**
@@ -186,6 +194,9 @@ class Langchain4JApplicationTests {
     }
 
 
+    /**
+     * 工具的使用
+     */
     @Test
     void TestTools(){
         Mathematician mathematician = AiServices.builder(Mathematician.class)
@@ -195,6 +206,29 @@ class Langchain4JApplicationTests {
         String chat1 = mathematician.chat("帮我写一个java的冒泡排序");
         System.out.println(chat1);
     }
+
+
+    /**
+     * 向量模型的使用
+     */
+    @Test
+    void TestEmbedding(){
+        Response<Embedding> response = embeddingModel.embed("帮我写一个java的冒泡排序");
+        System.out.println(response.content().vectorAsList());
+    }
+
+    /**
+     * 向量数据库的使用-els
+     */
+    @Test
+    void TestEmbeddingStore(){
+        //1.存储
+        Response<Embedding> emd = embeddingModel.embed("帮我写一个java的冒泡排序");
+        Embedding content = emd.content();
+        embeddingStore.add(String.valueOf(1),content);
+    }
+
+
 
 
 
