@@ -2,13 +2,13 @@ package com.hailiang.langchain4jdemo;
 
 import cn.hutool.core.collection.ListUtil;
 import com.hailiang.langchain4jdemo.prompt.CookingAssistant;
+import com.hailiang.langchain4jdemo.prompt.SystemPromptInterface;
 import com.hailiang.langchain4jdemo.response.CharacterAnalysis;
 import com.hailiang.langchain4jdemo.response.InputReview;
 import com.hailiang.langchain4jdemo.response.NumberAndDateExtractor;
 import com.hailiang.langchain4jdemo.response.SentimentAnalyzer;
 import com.hailiang.langchain4jdemo.response.enu.SentimentEnum;
 import com.hailiang.langchain4jdemo.response.pojo.Person;
-import com.hailiang.langchain4jdemo.response.pojo.PersonWithDescription;
 import com.hailiang.langchain4jdemo.response.pojo.Persons;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.model.StreamingResponseHandler;
@@ -91,7 +91,6 @@ class Langchain4JApplicationTests {
         System.out.println(prompt.text());
     }
 
-
     /**
      * 结构化提示词的使用
      */
@@ -106,6 +105,20 @@ class Langchain4JApplicationTests {
 
         System.out.println(content);
     }
+
+    /**
+     * 接口类型的提示词
+     */
+    @Test
+    void TestInterfacePrompt(){
+        SystemPromptInterface systemPromptInterface = AiServices.create(SystemPromptInterface.class, chatModel);
+        //String systemPrompt = systemPromptInterface.systemLimit("小明因为感冒所以请病假，因为他想要在家里休息和恢复得更快，这样他才能够尽快地恢复健康并且不会再生病。");
+        String systemPrompt = systemPromptInterface.systemLimit("你是不是openai研发的大模型吗?");
+        System.out.println(systemPrompt);
+    }
+
+
+
 
 
     /**
@@ -140,6 +153,9 @@ class Langchain4JApplicationTests {
     }
 
 
+    /**
+     * PoJo结构的响应
+     */
     @Test
     void TestPoJoStructResponse(){
         //1.获取人物信息
