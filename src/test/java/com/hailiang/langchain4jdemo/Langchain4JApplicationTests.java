@@ -1,17 +1,21 @@
 package com.hailiang.langchain4jdemo;
 
+import cn.hutool.core.collection.ListUtil;
+import com.hailiang.langchain4jdemo.prompt.CookingAssistant;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
+import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
 import dev.langchain4j.model.output.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -63,7 +67,7 @@ class Langchain4JApplicationTests {
 
 
     /**
-     * 动态提示词
+     * 普通动态提示词
      */
     @Test
     void TestPromptTemplate() {
@@ -75,6 +79,31 @@ class Langchain4JApplicationTests {
 
 
         System.out.println(prompt.text());
+    }
+
+
+    /**
+     * 结构化提示词的使用
+     */
+    @Test
+    void TestStructPrompt() {
+        CookingAssistant cookingAssistant = new CookingAssistant();
+        cookingAssistant.setDish("西红柿炒鸡蛋");
+        List<String> ingredients = ListUtil.of("西红柿","鸡蛋");
+        cookingAssistant.setIngredients(ingredients);
+        Prompt prompt = StructuredPromptProcessor.toPrompt(cookingAssistant);
+        AiMessage content = chatModel.generate(prompt.toUserMessage()).content();
+
+        System.out.println(content);
+    }
+
+
+    /**
+     * 结构化输出
+     */
+    @Test
+    void TestStructResponse(){
+
     }
 
 }
