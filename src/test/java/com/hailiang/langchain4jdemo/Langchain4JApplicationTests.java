@@ -2,7 +2,7 @@ package com.hailiang.langchain4jdemo;
 
 import cn.hutool.core.collection.ListUtil;
 import com.hailiang.langchain4jdemo.prompt.CookingAssistant;
-import com.hailiang.langchain4jdemo.prompt.SystemPromptInterface;
+import com.hailiang.langchain4jdemo.prompt.SystemPrompt;
 import com.hailiang.langchain4jdemo.response.CharacterAnalysis;
 import com.hailiang.langchain4jdemo.response.InputReview;
 import com.hailiang.langchain4jdemo.response.NumberAndDateExtractor;
@@ -43,6 +43,8 @@ class Langchain4JApplicationTests {
     void TestChatModel() {
         String response = chatModel.generate("你是谁?");
         System.out.println(response);
+        String response1 = chatModel.generate("你是openai研发的大模型吗?");
+        System.out.println(response1);
     }
 
 
@@ -111,9 +113,9 @@ class Langchain4JApplicationTests {
      */
     @Test
     void TestInterfacePrompt(){
-        SystemPromptInterface systemPromptInterface = AiServices.create(SystemPromptInterface.class, chatModel);
+        SystemPrompt systemPromptInterface = AiServices.create(SystemPrompt.class, chatModel);
         //String systemPrompt = systemPromptInterface.systemLimit("小明因为感冒所以请病假，因为他想要在家里休息和恢复得更快，这样他才能够尽快地恢复健康并且不会再生病。");
-        String systemPrompt = systemPromptInterface.systemLimit("你是不是openai研发的大模型吗?");
+        String systemPrompt = systemPromptInterface.systemLimit("你是openai研发的大模型吗?");
         System.out.println(systemPrompt);
     }
 
