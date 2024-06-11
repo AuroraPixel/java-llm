@@ -56,9 +56,17 @@
             <version>0.31.0</version>
         </dependency>
 
+        <!-- openai -->
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-open-ai</artifactId>
+            <version>0.31.0</version>
+        </dependency>
+
+        <!-- 百度千帆 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-qianfan</artifactId>
             <version>0.31.0</version>
         </dependency>
 

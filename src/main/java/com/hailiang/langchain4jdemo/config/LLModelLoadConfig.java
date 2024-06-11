@@ -7,6 +7,7 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
+import dev.langchain4j.model.qianfan.QianfanStreamingChatModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -51,8 +52,14 @@ public class LLModelLoadConfig {
             log.warn("LLModel:{}","请配置modelName");
             return null;
         }
+        //openai
         if(properties.getProviderName().equals("openai")){
             return OpenAiStreamingChatModel.builder().modelName(properties.getModelName())
+                    .apiKey(properties.getApiKey()).baseUrl(properties.getBaseUrl()).build();
+        }
+        //qianfan
+        if(properties.getProviderName().equals("qianfan")){
+            return QianfanStreamingChatModel.builder().modelName(properties.getModelName())
                     .apiKey(properties.getApiKey()).baseUrl(properties.getBaseUrl()).build();
         }
         log.warn("LLModel:{}","未有匹配的供应商");

@@ -2,6 +2,7 @@ package com.hailiang.langchain4jdemo;
 
 import cn.hutool.core.collection.ListUtil;
 import com.hailiang.langchain4jdemo.prompt.CookingAssistant;
+import com.hailiang.langchain4jdemo.prompt.Mathematician;
 import com.hailiang.langchain4jdemo.prompt.SystemPrompt;
 import com.hailiang.langchain4jdemo.response.CharacterAnalysis;
 import com.hailiang.langchain4jdemo.response.InputReview;
@@ -10,6 +11,7 @@ import com.hailiang.langchain4jdemo.response.SentimentAnalyzer;
 import com.hailiang.langchain4jdemo.response.enu.SentimentEnum;
 import com.hailiang.langchain4jdemo.response.pojo.Person;
 import com.hailiang.langchain4jdemo.response.pojo.Persons;
+import com.hailiang.langchain4jdemo.tools.Calculator;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
@@ -181,6 +183,17 @@ class Langchain4JApplicationTests {
         System.out.println(peoples1.getPersons().size());
         System.out.println(peoples1.getPersons().toString());
 
+    }
+
+
+    @Test
+    void TestTools(){
+        Mathematician mathematician = AiServices.builder(Mathematician.class)
+                .tools(new Calculator()).chatLanguageModel(chatModel).build();
+        String chat = mathematician.chat("“hello”和“world”的字母数之和的平方根是多少？");
+        System.out.println(chat);
+        String chat1 = mathematician.chat("帮我写一个java的冒泡排序");
+        System.out.println(chat1);
     }
 
 
