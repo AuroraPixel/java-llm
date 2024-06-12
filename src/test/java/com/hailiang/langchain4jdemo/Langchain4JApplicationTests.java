@@ -23,6 +23,7 @@ import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.elasticsearch.ElasticsearchEmbeddingStore;
 import org.junit.jupiter.api.Test;
@@ -214,6 +215,7 @@ class Langchain4JApplicationTests {
     @Test
     void TestEmbedding(){
         Response<Embedding> response = embeddingModel.embed("帮我写一个java的冒泡排序");
+        System.out.println(response.content().vectorAsList().size());
         System.out.println(response.content().vectorAsList());
     }
 

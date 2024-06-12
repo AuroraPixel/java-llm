@@ -78,12 +78,21 @@
             <version>0.31.0</version>
         </dependency>
 
-        <!-- langchain4j的elasticsearch向量模型数据库 -->
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-elasticsearch</artifactId>
             <version>0.31.0</version>
         </dependency>
+
+
+        <!-- langchain4j的elasticsearch向量模型数据库 -->
+        <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+            <version>8.12.0</version> <!-- 确保版本兼容 -->
+        </dependency>
+
+
 
 
     </dependencies>
