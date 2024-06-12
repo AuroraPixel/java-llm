@@ -14,13 +14,13 @@ hailiang:
       # url
       base-url: https://api.chatanywhere.tech/v1
       # api-key
-      api-key: sk-gRbZ9FJz2E7c7mwO5JOvp2u2rtoWoAbg12CxDy3Y25eLeDvd
+      api-key: xxx
     # ????
     embedding:
       # ???
       provider-name: openai
       # api-key
-      api-key: sk-gRbZ9FJz2E7c7mwO5JOvp2u2rtoWoAbg12CxDy3Y25eLeDvd
+      api-key: xxx
       # url
       base-url: https://api.chatanywhere.tech/v1
       store:

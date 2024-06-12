@@ -1,4 +1,4 @@
-package com.hailiang.langchain4jdemo.agent;
+package com.hailiang.langchain4jdemo.prompt;
 
 import dev.langchain4j.service.SystemMessage;
 

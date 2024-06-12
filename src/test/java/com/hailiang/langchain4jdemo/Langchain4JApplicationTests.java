@@ -1,10 +1,7 @@
 package com.hailiang.langchain4jdemo;
 
 import cn.hutool.core.collection.ListUtil;
-import com.hailiang.langchain4jdemo.agent.CodeReview;
-import com.hailiang.langchain4jdemo.prompt.CookingAssistant;
-import com.hailiang.langchain4jdemo.prompt.Mathematician;
-import com.hailiang.langchain4jdemo.prompt.SystemPrompt;
+import com.hailiang.langchain4jdemo.prompt.*;
 import com.hailiang.langchain4jdemo.response.CharacterAnalysis;
 import com.hailiang.langchain4jdemo.response.InputReview;
 import com.hailiang.langchain4jdemo.response.NumberAndDateExtractor;
@@ -30,7 +27,6 @@ import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
-import dev.langchain4j.retriever.EmbeddingStoreRetriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
@@ -60,6 +56,8 @@ class Langchain4JApplicationTests {
     private EmbeddingModel embeddingModel;
     @Autowired
     private ElasticsearchEmbeddingStore embeddingStore;
+    @Autowired
+    private CustomerSupport agent;
 
 
     /**
@@ -301,12 +299,12 @@ class Langchain4JApplicationTests {
     @Test
     void TestRAGDocumentEmbeddingTrain(){
         //1.pdf文本训练
-        Path path = toPath("/example-files/阿里巴巴泰山版java开发手册.pdf");
+        Path path = toPath("/example-files/miles-of-smiles-terms-of-use.txt");
         System.out.println("文档路径:"+path);
         Document document = loadDocument(path, new ApacheTikaDocumentParser());
         //System.out.println("文档内容:"+document);
         //2.文本分割
-        DocumentSplitter splitter = DocumentSplitters.recursive(500, 50);
+        DocumentSplitter splitter = DocumentSplitters.recursive(100, 0);
         List<TextSegment> split = splitter.split(document);
         System.out.println("文档分割块大小:"+split.size());
         //3.进行文本训练
@@ -348,6 +346,29 @@ class Langchain4JApplicationTests {
                 "// 但事实上 equals 的结果为 false\n" +
                 "}");
         System.out.println(chat);
+    }
+
+
+    /**
+     * 客服代理
+     */
+    @Test
+    void TestCustomerSupportAgent(){
+        interact(agent, "你好，我忘记我的预订信息");
+        interact(agent, "123-457");
+        interact(agent, "对不起我忘记是哪一天。 名字叫:Klaus Heisler.");
+        interact(agent, "对不起,房间号是 123-456");
+        interact(agent, "我想取消我的预订");
+    }
+
+    private static void interact(CustomerSupport agent, String userMessage) {
+        System.out.println("==========================================================================================");
+        System.out.println("[User]: " + userMessage);
+        System.out.println("==========================================================================================");
+        String agentAnswer = agent.chat(userMessage);
+        System.out.println("==========================================================================================");
+        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("==========================================================================================");
     }
 
     private static Path toPath(String fileName) {
