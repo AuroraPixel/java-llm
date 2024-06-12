@@ -7,6 +7,7 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
+import dev.langchain4j.model.qianfan.QianfanChatModel;
 import dev.langchain4j.model.qianfan.QianfanStreamingChatModel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,22 +37,8 @@ public class LLModelLoadConfig {
     }
 
     private StreamingChatLanguageModel loadStreamingModel(LLModelProperties properties) {
-        if(StrUtil.isEmpty(properties.getProviderName())){
-            log.warn("LLModel:{}","请配置供应商");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getApiKey())){
-            log.warn("LLModel:{}","请配置apiKey");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getBaseUrl())){
-            log.warn("LLModel:{}","请配置baseUrl");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getModelName())){
-            log.warn("LLModel:{}","请配置modelName");
-            return null;
-        }
+        //TODO 模型参数校验
+
         //openai
         if(properties.getProviderName().equals("openai")){
             return OpenAiStreamingChatModel.builder().modelName(properties.getModelName())
@@ -67,25 +54,17 @@ public class LLModelLoadConfig {
     }
 
     private ChatLanguageModel loadModel(LLModelProperties properties) {
-        if(StrUtil.isEmpty(properties.getProviderName())){
-            log.warn("LLModel:{}","请配置供应商");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getApiKey())){
-            log.warn("LLModel:{}","请配置apiKey");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getBaseUrl())){
-            log.warn("LLModel:{}","请配置baseUrl");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getModelName())){
-            log.warn("LLModel:{}","请配置modelName");
-            return null;
-        }
+        //TODO 模型参数校验
+
+        //openai
         if(properties.getProviderName().equals("openai")){
             return OpenAiChatModel.builder().modelName(properties.getModelName())
                     .apiKey(properties.getApiKey()).baseUrl(properties.getBaseUrl()).build();
+        }
+        //qianfan
+        if(properties.getProviderName().equals("qianfan")){
+            return QianfanChatModel.builder().modelName(properties.getModelName())
+                    .apiKey(properties.getApiKey()).build();
         }
         log.warn("LLModel:{}","未有匹配的供应商");
         return null;
