@@ -1,6 +1,7 @@
 package com.hailiang.langchain4jdemo;
 
 import cn.hutool.core.collection.ListUtil;
+import com.hailiang.langchain4jdemo.agent.CodeReview;
 import com.hailiang.langchain4jdemo.prompt.CookingAssistant;
 import com.hailiang.langchain4jdemo.prompt.Mathematician;
 import com.hailiang.langchain4jdemo.prompt.SystemPrompt;
@@ -12,8 +13,13 @@ import com.hailiang.langchain4jdemo.response.enu.SentimentEnum;
 import com.hailiang.langchain4jdemo.response.pojo.Person;
 import com.hailiang.langchain4jdemo.response.pojo.Persons;
 import com.hailiang.langchain4jdemo.tools.Calculator;
+import dev.langchain4j.data.document.Document;
+import dev.langchain4j.data.document.DocumentSplitter;
+import dev.langchain4j.data.document.parser.apache.tika.ApacheTikaDocumentParser;
+import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
@@ -22,18 +28,27 @@ import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.rag.content.retriever.ContentRetriever;
+import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
+import dev.langchain4j.retriever.EmbeddingStoreRetriever;
 import dev.langchain4j.service.AiServices;
-import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
-import dev.langchain4j.store.embedding.EmbeddingStore;
+import dev.langchain4j.store.embedding.EmbeddingMatch;
+import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.elasticsearch.ElasticsearchEmbeddingStore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 
 @SpringBootTest
 class Langchain4JApplicationTests {
@@ -228,6 +243,120 @@ class Langchain4JApplicationTests {
         Response<Embedding> emd = embeddingModel.embed("帮我写一个java的冒泡排序");
         Embedding content = emd.content();
         embeddingStore.add(String.valueOf(1),content);
+    }
+
+
+    /**
+     * 文本向量检索
+     */
+    @Test
+    void TestSearchEmbeddingStore(){
+        //1.文本1
+        TextSegment segment1 = TextSegment.from("人工智能（AI）是计算机科学的一个分支，它涉及模拟人类智能的机器。" +
+                "这些机器可以执行诸如理解自然语言、识别人脸、玩游戏以及进行复杂计算等任务。" +
+                "近年来，人工智能技术在各个领域得到了广泛应用，包括医疗、金融、教育和交通等。" +
+                "尤其是深度学习和神经网络的发展，使得人工智能在图像识别和语音识别等方面取得了显著进展。");
+        //文本转向量
+        Embedding content1 = embeddingModel.embed(segment1).content();
+        embeddingStore.add(content1,segment1);
+
+        //2.文本2
+        TextSegment segment2 = TextSegment.from("机器学习是人工智能的一个重要分支，通过数据和算法来训练计算机模型，以便它们能够自动完成特定任务。" +
+                "机器学习算法可以分为监督学习、无监督学习和强化学习三种类型。监督学习使用标注数据进行训练，常用于分类和回归问题；" +
+                "无监督学习使用未标注数据，常用于聚类和降维；强化学习通过与环境的交互来学习策略，广泛应用于机器人控制和游戏AI。");
+        //文本转向量
+        Embedding content2 = embeddingModel.embed(segment2).content();
+        embeddingStore.add(content2,segment2);
+
+        Embedding queryEmbedding = embeddingModel.embed("什么是人工智能？").content();
+        List<EmbeddingMatch<TextSegment>> relevant = embeddingStore.findRelevant(queryEmbedding, 1);
+        EmbeddingMatch<TextSegment> embeddingMatch = relevant.get(0);
+        System.out.println(embeddingMatch.score());
+        System.out.println(embeddingMatch.embedded().text());
+
+        Embedding queryEmbedding1 = embeddingModel.embed("人工智能在医疗领域的应用有哪些？").content();
+        List<EmbeddingMatch<TextSegment>> relevant1 = embeddingStore.findRelevant(queryEmbedding1, 1);
+        EmbeddingMatch<TextSegment> embeddingMatch1 = relevant1.get(0);
+        System.out.println(embeddingMatch1.score());
+        System.out.println(embeddingMatch1.embedded().text());
+
+        Embedding queryEmbedding2 = embeddingModel.embed("机器学习的三种类型是什么？").content();
+        List<EmbeddingMatch<TextSegment>> relevant2 = embeddingStore.findRelevant(queryEmbedding2, 1);
+        EmbeddingMatch<TextSegment> embeddingMatch2 = relevant2.get(0);
+        System.out.println(embeddingMatch2.score());
+        System.out.println(embeddingMatch2.embedded().text());
+
+        Embedding queryEmbedding3 = embeddingModel.embed("监督学习和无监督学习的区别是什么？").content();
+        List<EmbeddingMatch<TextSegment>> relevant3 = embeddingStore.findRelevant(queryEmbedding3, 1);
+        EmbeddingMatch<TextSegment> embeddingMatch3 = relevant3.get(0);
+        System.out.println(embeddingMatch3.score());
+        System.out.println(embeddingMatch3.embedded().text());
+
+    }
+
+
+    /**
+     * RAG 文本向量训练
+     */
+    @Test
+    void TestRAGDocumentEmbeddingTrain(){
+        //1.pdf文本训练
+        Path path = toPath("/example-files/阿里巴巴泰山版java开发手册.pdf");
+        System.out.println("文档路径:"+path);
+        Document document = loadDocument(path, new ApacheTikaDocumentParser());
+        //System.out.println("文档内容:"+document);
+        //2.文本分割
+        DocumentSplitter splitter = DocumentSplitters.recursive(500, 50);
+        List<TextSegment> split = splitter.split(document);
+        System.out.println("文档分割块大小:"+split.size());
+        //3.进行文本训练
+        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+                .documentSplitter(splitter)
+                .embeddingModel(embeddingModel)
+                .embeddingStore(embeddingStore)
+                .build();
+        ingestor.ingest(document);
+
+    }
+
+
+
+    /**
+     * RAG 文本搜索（代码审查器）
+     */
+    @Test
+    void TestRAGDocumentSearch(){
+        ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+                .embeddingStore(embeddingStore)
+                .embeddingModel(embeddingModel)
+                .maxResults(5) // 最大搜索结果
+                .minScore(0.9) // 最小匹配得分
+                .build();
+        CodeReview codeReviewAiServices = AiServices.builder(CodeReview.class).chatLanguageModel(chatModel)
+                .contentRetriever(contentRetriever)
+                .build();
+        String chat = codeReviewAiServices.chat("float a = 1.0f - 0.9f;\n" +
+                "float b = 0.9f - 0.8f;\n" +
+                "if (a == b) {\n" +
+                "// 预期进入此代码快，执行其它业务逻辑\n" +
+                "// 但事实上 a==b 的结果为 false\n" +
+                "}\n" +
+                "Float x = Float.valueOf(a);\n" +
+                "Float y = Float.valueOf(b);\n" +
+                "if (x.equals(y)) {\n" +
+                "// 预期进入此代码快，执行其它业务逻辑\n" +
+                "// 但事实上 equals 的结果为 false\n" +
+                "}");
+        System.out.println(chat);
+    }
+
+    private static Path toPath(String fileName) {
+        try {
+            URL fileUrl = Langchain4JApplicationTests.class.getResource(fileName);
+            return Paths.get(fileUrl.toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
