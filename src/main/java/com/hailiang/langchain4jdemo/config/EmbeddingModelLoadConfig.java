@@ -26,19 +26,7 @@ public class EmbeddingModelLoadConfig {
     }
 
     private EmbeddingModel loadEmbeddingModel(EmbeddingModelProperties properties) {
-        if(StrUtil.isEmpty(properties.getProviderName())){
-            log.warn("EmbeddingModel:{}","请配置供应商");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getApiKey())){
-            log.warn("EmbeddingModel:{}","请配置apiKey");
-            return null;
-        }
-        if(StrUtil.isEmpty(properties.getBaseUrl())){
-            log.warn("EmbeddingModel:{}","请配置baseUrl");
-            return null;
-        }
-
+        //TODO 模型参数校验
         if (properties.getProviderName().equals("openai")) {
             return OpenAiEmbeddingModel.builder().apiKey(properties.getApiKey())
                     .baseUrl(properties.getBaseUrl())

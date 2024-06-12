@@ -299,7 +299,7 @@ class Langchain4JApplicationTests {
     @Test
     void TestRAGDocumentEmbeddingTrain(){
         //1.pdf文本训练
-        Path path = toPath("/example-files/miles-of-smiles-terms-of-use.txt");
+        Path path = toPath("/example-files/阿里巴巴泰山版java开发手册.pdf");
         System.out.println("文档路径:"+path);
         Document document = loadDocument(path, new ApacheTikaDocumentParser());
         //System.out.println("文档内容:"+document);
