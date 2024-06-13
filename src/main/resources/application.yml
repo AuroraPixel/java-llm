@@ -5,27 +5,29 @@ server:
   port: 8080
 hailiang:
   langchain4j:
-    # ?????
+    # 大模型
     llm:
-      # ???
-      provider-name: openai
-      # ???
-      model-name: gpt-3.5-turbo
+      # 供应商
+      provider-name: ollma
+      # 模型名称
+      model-name: llama3
       # url
-      base-url: https://api.chatanywhere.tech/v1
+      base-url: http://localhost:11434/
       # api-key
-      api-key: xxx
-    # ????
+      api-key: sk-gRbZ9FJz2E7c7mwO5JOvp2u2rtoWoAbg12CxDy3Y25eLeDvd
+    # 向量模型
     embedding:
-      # ???
-      provider-name: openai
+      # 供应商
+      provider-name: ollma
+      # 模型名称
+      model-name: all-minilm
       # api-key
-      api-key: xxx
+      api-key: sk-gRbZ9FJz2E7c7mwO5JOvp2u2rtoWoAbg12CxDy3Y25eLeDvd
       # url
-      base-url: https://api.chatanywhere.tech/v1
+      base-url: http://localhost:11434/
       store:
         elastic-host: 154.204.60.125
         elastic-port: 9200
         elastic-username: elastic
         elastic-password: admin8989
-        index-name: langchain
+        index-name: langchain161345444

@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.hailiang.langchain4jdemo.config.proerties.LLModelProperties;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.ollama.OllamaChatModel;
+import dev.langchain4j.model.ollama.OllamaStreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.model.qianfan.QianfanChatModel;
@@ -49,6 +51,12 @@ public class LLModelLoadConfig {
             return QianfanStreamingChatModel.builder().modelName(properties.getModelName())
                     .apiKey(properties.getApiKey()).baseUrl(properties.getBaseUrl()).build();
         }
+        //ollama
+        if(properties.getProviderName().equals("ollma")){
+            return OllamaStreamingChatModel.builder().
+                    modelName(properties.getModelName()).baseUrl(properties.getBaseUrl()).build();
+        }
+
         log.warn("LLModel:{}","未有匹配的供应商");
         return null;
     }
@@ -65,6 +73,11 @@ public class LLModelLoadConfig {
         if(properties.getProviderName().equals("qianfan")){
             return QianfanChatModel.builder().modelName(properties.getModelName())
                     .apiKey(properties.getApiKey()).build();
+        }
+        //ollama
+        if(properties.getProviderName().equals("ollma")){
+            return OllamaChatModel.builder().
+                    modelName(properties.getModelName()).baseUrl(properties.getBaseUrl()).build();
         }
         log.warn("LLModel:{}","未有匹配的供应商");
         return null;

@@ -30,7 +30,7 @@ public class EmbeddingStoreLoadConfig {
                 .userName(properties.getElasticUsername())
                 .password(properties.getElasticPassword())
                 .indexName(properties.getIndexName())
-                .dimension(1536)
+                .dimension(384)
                 .build();
     }
 }

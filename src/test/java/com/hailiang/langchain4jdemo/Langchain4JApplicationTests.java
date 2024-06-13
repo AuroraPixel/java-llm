@@ -95,7 +95,7 @@ class Langchain4JApplicationTests {
         });
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(60000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -110,11 +110,13 @@ class Langchain4JApplicationTests {
         PromptTemplate promptTemplate = PromptTemplate.from("说 {{context}} 用 {{language}}.");
         Map<String,Object> variables = new HashMap<>();
         variables.put("context","你好");
-        variables.put("language","英语");
+        variables.put("language","法语");
         Prompt prompt = promptTemplate.apply(variables);
-
-
         System.out.println(prompt.text());
+
+        Response<AiMessage> generate = chatModel.generate(prompt.toUserMessage());
+        System.out.println(generate.content().text());
+
     }
 
     /**
@@ -304,7 +306,7 @@ class Langchain4JApplicationTests {
         Document document = loadDocument(path, new ApacheTikaDocumentParser());
         //System.out.println("文档内容:"+document);
         //2.文本分割
-        DocumentSplitter splitter = DocumentSplitters.recursive(100, 0);
+        DocumentSplitter splitter = DocumentSplitters.recursive(500, 50);
         List<TextSegment> split = splitter.split(document);
         System.out.println("文档分割块大小:"+split.size());
         //3.进行文本训练

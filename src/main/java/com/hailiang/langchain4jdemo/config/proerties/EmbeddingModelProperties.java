@@ -26,4 +26,9 @@ public class EmbeddingModelProperties {
      * baseUrl
      */
     private String baseUrl;
+
+    /**
+     * 模型名字
+     */
+    private String modelName;
 }
