@@ -2,6 +2,7 @@ package com.hailiang.langchain4jdemo;
 
 import cn.hutool.core.collection.ListUtil;
 import com.hailiang.langchain4jdemo.prompt.*;
+import com.hailiang.langchain4jdemo.remote.GitLabRemote;
 import com.hailiang.langchain4jdemo.response.CharacterAnalysis;
 import com.hailiang.langchain4jdemo.response.InputReview;
 import com.hailiang.langchain4jdemo.response.NumberAndDateExtractor;
@@ -58,6 +59,20 @@ class Langchain4JApplicationTests {
     private ElasticsearchEmbeddingStore embeddingStore;
     @Autowired
     private CustomerSupport agent;
+    @Autowired
+    private GitLabRemote gitLabRemote;
+
+    @Test
+    void TestGitLabRemoteCompare(){
+        String compare = gitLabRemote.compare("829df3b2a9b827d7b11b4670a0f53f4f1e13f635", "5b1569498465d0c12337559b5b737641a535a3a4");
+        System.out.println(compare);
+    }
+
+    @Test
+    void TestGitLabRemoteCommits(){
+        String compare = gitLabRemote.commits("7041330bb734a35697fa91c7e722337bbe530bc2");
+        System.out.println(compare);
+    }
 
 
     /**

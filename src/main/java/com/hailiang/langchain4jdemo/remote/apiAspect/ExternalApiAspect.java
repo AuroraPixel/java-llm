@@ -5,6 +5,7 @@ import com.hailiang.langchain4jdemo.annotations.ExternalApi;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -30,10 +31,10 @@ public class ExternalApiAspect {
 
     @Around("@annotation(externalApi)")
     public Object handleExternalApi(ProceedingJoinPoint pjp, ExternalApi externalApi) throws Throwable {
-        Method method = pjp.getTarget().getClass().getMethod(pjp.getSignature().getName(), pjp.getArgs().getClass());
+        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
+        Method method = methodSignature.getMethod();
         Object[] args = pjp.getArgs();
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-
 
         String path = externalApi.path();
         String httpMethod = externalApi.method();
@@ -76,7 +77,13 @@ public class ExternalApiAspect {
             throw new UnsupportedOperationException("该请求方法还未支持: " + httpMethod);
         }
 
-        Mono<String> response = request.retrieve().bodyToMono(String.class);
+        Mono<String> response = request.retrieve()
+                .onStatus(status -> status.isError(), clientResponse -> {
+                    return clientResponse.bodyToMono(String.class)
+                            .flatMap(errorBody -> Mono.error(new RuntimeException(
+                                    "请求失败，状态码: " + clientResponse.statusCode() + ", 错误信息: " + errorBody)));
+                })
+                .bodyToMono(String.class);
         return response.block();
     }
 }

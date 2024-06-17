@@ -19,8 +19,18 @@ public class GitLabRemote {
      * @param to
      * @return
      */
-    @ExternalApi(path = "/compare", method = "GET", client = "gitClient")
-    public String compare(@RequestParam("from") String from, @RequestParam("from")String to) {
+    @ExternalApi(path = "/repository/compare", method = "GET", client = "gitClient")
+    public String compare(@RequestParam("from") String from, @RequestParam("to")String to) {
+        return null;
+    }
+
+    /**
+     * 比较分支、标签或提交
+     * @param id
+     * @return
+     */
+    @ExternalApi(path = "/repository/commits", method = "GET", client = "gitClient")
+    public String commits(@RequestParam("id") String id) {
         return null;
     }
 
