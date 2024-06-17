@@ -1,7 +1,6 @@
 package com.hailiang.langchain4jdemo.config;
 
 
-import cn.hutool.core.util.StrUtil;
 import com.hailiang.langchain4jdemo.config.proerties.LLModelProperties;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;

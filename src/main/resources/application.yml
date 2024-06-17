@@ -31,3 +31,8 @@ hailiang:
         elastic-username: elastic
         elastic-password: admin8989
         index-name: langchain161345444
+  git:
+    client:
+      provider-name: gitee
+      url: http://10.30.5.8/api/v4/projects/915/
+      token: glpat-FLvBZ4GBX9xxaPEALFm8
