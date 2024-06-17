@@ -9,6 +9,6 @@ public class GitHookTest {
 
     @PostMapping("/test")
     public void Test(@RequestBody String test) {
-        System.out.println("git hook test-1:"+test);
+        System.out.println("git hook test-2:"+test);
     }
 }
