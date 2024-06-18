@@ -46,6 +46,12 @@ public class GitUserDetail {
     private String avatarUrl;
 
     /**
+     * 邮箱
+     */
+    @JsonProperty("email")
+    private String email;
+
+    /**
      * 网页URL
      */
     @JsonProperty("web_url")
