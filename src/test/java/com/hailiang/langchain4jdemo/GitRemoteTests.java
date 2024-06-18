@@ -54,7 +54,7 @@ class GitRemoteTests {
 
     @Test
     void TestGitLabRemoteCompare(){
-        String compare = gitLabRemote.compare("915","829df3b2a9b827d7b11b4670a0f53f4f1e13f635", "5b1569498465d0c12337559b5b737641a535a3a4");
+        String compare = gitLabRemote.compare("915","7041330bb734a35697fa91c7e722337bbe530bc2", "6fb5003685bd45c57db3394437030a8ca234b75b");
         System.out.println(compare);
     }
 
@@ -67,7 +67,7 @@ class GitRemoteTests {
 
     @Test
     void TestGitLabRemoteSingleMR(){
-        String compare = gitLabRemote.getSingleMR("915","829df3b2a9b827d7b11b4670a0f53f4f1e13f635");
+        String compare = gitLabRemote.getSingleMR("915","4");
         System.out.println(compare);
     }
 }

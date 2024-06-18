@@ -2,6 +2,7 @@ package com.hailiang.langchain4jdemo.remote.apiAspect;
 
 
 import com.hailiang.langchain4jdemo.annotations.ExternalApi;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Aspect
 @Component
+@Slf4j
 public class ExternalApiAspect {
     private final Map<String, WebClient> clients = new ConcurrentHashMap<>();
 
@@ -55,6 +57,7 @@ public class ExternalApiAspect {
                 }
             }
         }
+        log.info("WebClient-{}-请求路径:{}", clientName, path);
 
         WebClient.RequestHeadersSpec<?> request;
 
