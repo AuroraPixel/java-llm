@@ -241,7 +241,7 @@ class Langchain4JTests {
     @Test
     void TestEmbeddingStore(){
         //1.存储
-        Response<Embedding> emd = embeddingModel.embed("帮我写一个java的冒泡排序1");
+        Response<Embedding> emd = embeddingModel.embed("帮我写一个java的冒泡排序");
         Embedding content = emd.content();
         embeddingStore.add(String.valueOf(1),content);
     }
