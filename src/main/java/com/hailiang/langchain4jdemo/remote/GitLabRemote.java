@@ -4,6 +4,7 @@ package com.hailiang.langchain4jdemo.remote;
 
 import com.hailiang.langchain4jdemo.annotations.ExternalApi;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -19,8 +20,8 @@ public class GitLabRemote {
      * @param to
      * @return
      */
-    @ExternalApi(path = "/repository/compare", method = "GET", client = "gitClient")
-    public String compare(@RequestParam("from") String from, @RequestParam("to")String to) {
+    @ExternalApi(path = "{projectId}/repository/compare", method = "GET", client = "gitClient")
+    public String compare(@PathVariable("projectId") String projectId, @RequestParam("from") String from, @RequestParam("to")String to) {
         return null;
     }
 
@@ -29,8 +30,18 @@ public class GitLabRemote {
      * @param id
      * @return
      */
-    @ExternalApi(path = "/repository/commits", method = "GET", client = "gitClient")
-    public String commits(@RequestParam("id") String id) {
+    @ExternalApi(path = "{projectId}/repository/commits", method = "GET", client = "gitClient")
+    public String getCommits(@PathVariable("projectId") String projectId,@RequestParam("id") String id) {
+        return null;
+    }
+
+
+    /**
+     * 获取单个MR
+     * @return
+     */
+    @ExternalApi(path = "{projectId}/merge_requests/{mergeRequestId}", method = "GET", client = "gitClient")
+    public String getSingleMR(@PathVariable("projectId") String projectId,@PathVariable("mergeRequestId") String mergeRequestId) {
         return null;
     }
 

@@ -48,7 +48,7 @@ import java.util.Map;
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 
 @SpringBootTest
-class Langchain4JApplicationTests {
+class Langchain4JTests {
     @Autowired
     private ChatLanguageModel chatModel;
     @Autowired
@@ -64,13 +64,13 @@ class Langchain4JApplicationTests {
 
     @Test
     void TestGitLabRemoteCompare(){
-        String compare = gitLabRemote.compare("829df3b2a9b827d7b11b4670a0f53f4f1e13f635", "5b1569498465d0c12337559b5b737641a535a3a4");
+        String compare = gitLabRemote.compare("915","829df3b2a9b827d7b11b4670a0f53f4f1e13f635", "5b1569498465d0c12337559b5b737641a535a3a4");
         System.out.println(compare);
     }
 
     @Test
     void TestGitLabRemoteCommits(){
-        String compare = gitLabRemote.commits("7041330bb734a35697fa91c7e722337bbe530bc2");
+        String compare = gitLabRemote.getCommits("915","7041330bb734a35697fa91c7e722337bbe530bc2");
         System.out.println(compare);
     }
 
@@ -390,7 +390,7 @@ class Langchain4JApplicationTests {
 
     private static Path toPath(String fileName) {
         try {
-            URL fileUrl = Langchain4JApplicationTests.class.getResource(fileName);
+            URL fileUrl = Langchain4JTests.class.getResource(fileName);
             return Paths.get(fileUrl.toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);

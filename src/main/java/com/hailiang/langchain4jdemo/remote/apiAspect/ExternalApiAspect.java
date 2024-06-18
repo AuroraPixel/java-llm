@@ -9,6 +9,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -45,10 +46,21 @@ public class ExternalApiAspect {
             throw new IllegalArgumentException("无效的客户端: " + clientName);
         }
 
+        // @PathVariable注解解析
+        for (int i = 0; i < args.length; i++) {
+            for (Annotation annotation : parameterAnnotations[i]) {
+                if (annotation instanceof PathVariable) {
+                    String paramName = ((PathVariable) annotation).value();
+                    path = path.replace("{" + paramName + "}", args[i].toString());
+                }
+            }
+        }
+
         WebClient.RequestHeadersSpec<?> request;
 
         if ("GET".equalsIgnoreCase(httpMethod)) {
             WebClient.RequestHeadersUriSpec<?> uriSpec = webClient.get();
+            String finalPath = path;
             request = uriSpec.uri(uriBuilder -> {
                 for (int i = 0; i < args.length; i++) {
                     for (Annotation annotation : parameterAnnotations[i]) {
@@ -58,7 +70,7 @@ public class ExternalApiAspect {
                         }
                     }
                 }
-                return uriBuilder.path(path).build();
+                return uriBuilder.path(finalPath).build();
             });
         } else if ("POST".equalsIgnoreCase(httpMethod)) {
             WebClient.RequestBodyUriSpec uriSpec = webClient.post();

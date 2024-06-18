@@ -22,7 +22,7 @@ public @interface ExternalApi {
     String method() default "GET";
 
     /**
-     * 客户度名
+     * 客户端名
      * @return
      */
     String client();
