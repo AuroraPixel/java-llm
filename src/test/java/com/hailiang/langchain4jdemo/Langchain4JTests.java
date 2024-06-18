@@ -82,7 +82,7 @@ class Langchain4JTests {
     void TestChatModel() {
         String response = chatModel.generate("你是谁?");
         System.out.println(response);
-        String response1 = chatModel.generate("你是openai研发的大模型吗?");
+        String response1 = chatModel.generate("你是openai研发的吗?");
         System.out.println(response1);
     }
 
