@@ -37,7 +37,7 @@ public class GitUserDetail {
      * 是否锁定
      */
     @JsonProperty("locked")
-    private boolean locked;
+    private Boolean locked;
 
     /**
      * 头像URL

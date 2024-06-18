@@ -42,17 +42,17 @@ public class DiffDetail {
      * 是否为新文件
      */
     @JsonProperty("new_file")
-    private boolean newFile;
+    private Boolean newFile;
 
     /**
      * 是否重命名文件
      */
     @JsonProperty("renamed_file")
-    private boolean renamedFile;
+    private Boolean renamedFile;
 
     /**
      * 是否删除文件
      */
     @JsonProperty("deleted_file")
-    private boolean deletedFile;
+    private Boolean deletedFile;
 }

@@ -12,13 +12,13 @@ public class TimeStatsDetail {
      * 预估时间
      */
     @JsonProperty("time_estimate")
-    private int timeEstimate;
+    private Integer timeEstimate;
 
     /**
      * 总时间花费
      */
     @JsonProperty("total_time_spent")
-    private int totalTimeSpent;
+    private Integer totalTimeSpent;
 
     /**
      * 人类可读预估时间

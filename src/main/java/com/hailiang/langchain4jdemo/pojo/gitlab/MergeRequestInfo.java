@@ -165,13 +165,13 @@ public class MergeRequestInfo {
      * 是否为草稿
      */
     @JsonProperty("draft")
-    private boolean draft;
+    private Boolean draft;
 
     /**
      * 是否为进行中
      */
     @JsonProperty("work_in_progress")
-    private boolean workInProgress;
+    private Boolean workInProgress;
 
     /**
      * 里程碑
@@ -183,7 +183,7 @@ public class MergeRequestInfo {
      * 当管道成功时合并
      */
     @JsonProperty("merge_when_pipeline_succeeds")
-    private boolean mergeWhenPipelineSucceeds;
+    private Boolean mergeWhenPipelineSucceeds;
 
     /**
      * 合并状态
@@ -231,7 +231,7 @@ public class MergeRequestInfo {
      * 强制删除源分支
      */
     @JsonProperty("force_remove_source_branch")
-    private boolean forceRemoveSourceBranch;
+    private Boolean forceRemoveSourceBranch;
 
     /**
      * 准备时间
@@ -267,13 +267,13 @@ public class MergeRequestInfo {
      * 是否压缩
      */
     @JsonProperty("squash")
-    private boolean squash;
+    private Boolean squash;
 
     /**
      * 合并时压缩
      */
     @JsonProperty("squash_on_merge")
-    private boolean squashOnMerge;
+    private Boolean squashOnMerge;
 
     /**
      * 任务完成状态
@@ -285,19 +285,19 @@ public class MergeRequestInfo {
      * 是否有冲突
      */
     @JsonProperty("has_conflicts")
-    private boolean hasConflicts;
+    private Boolean hasConflicts;
 
     /**
      * 阻塞讨论已解决
      */
     @JsonProperty("blocking_discussions_resolved")
-    private boolean blockingDiscussionsResolved;
+    private Boolean blockingDiscussionsResolved;
 
     /**
      * 是否订阅
      */
     @JsonProperty("subscribed")
-    private boolean subscribed;
+    private Boolean subscribed;
 
     /**
      * 更改计数
@@ -351,7 +351,7 @@ public class MergeRequestInfo {
      * 是否是第一次贡献
      */
     @JsonProperty("first_contribution")
-    private boolean firstContribution;
+    private Boolean firstContribution;
 
     /**
      * 用户信息

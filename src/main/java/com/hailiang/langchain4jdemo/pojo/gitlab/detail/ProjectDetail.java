@@ -12,7 +12,7 @@ public class ProjectDetail {
      * 项目ID
      */
     @JsonProperty("id")
-    private int id;
+    private Integer id;
 
     /**
      * 项目名称
@@ -60,7 +60,7 @@ public class ProjectDetail {
      * 可见性级别
      */
     @JsonProperty("visibility_level")
-    private int visibilityLevel;
+    private Integer visibilityLevel;
 
     /**
      * 带命名空间的路径

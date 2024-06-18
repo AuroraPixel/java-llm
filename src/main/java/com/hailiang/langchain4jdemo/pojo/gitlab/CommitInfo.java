@@ -32,13 +32,13 @@ public class CommitInfo {
      * 比较超时标志
      */
     @JsonProperty("compare_timeout")
-    private boolean compareTimeout;
+    private Boolean compareTimeout;
 
     /**
      * 比较相同引用标志
      */
     @JsonProperty("compare_same_ref")
-    private boolean compareSameRef;
+    private Boolean compareSameRef;
 
     /**
      * 比较详细信息的URL

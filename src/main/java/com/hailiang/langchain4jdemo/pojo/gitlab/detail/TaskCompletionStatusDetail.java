@@ -13,11 +13,11 @@ public class TaskCompletionStatusDetail {
      * 任务总数
      */
     @JsonProperty("count")
-    private int count;
+    private Integer count;
 
     /**
      * 完成的任务总数
      */
     @JsonProperty("completed_count")
-    private int completedCount;
+    private Integer completedCount;
 }

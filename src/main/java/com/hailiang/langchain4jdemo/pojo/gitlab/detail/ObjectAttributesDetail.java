@@ -104,7 +104,7 @@ public class ObjectAttributesDetail {
      * 当流水线成功时合并
      */
     @JsonProperty("merge_when_pipeline_succeeds")
-    private boolean mergeWhenPipelineSucceeds;
+    private Boolean mergeWhenPipelineSucceeds;
 
     /**
      * 里程碑ID
@@ -194,7 +194,7 @@ public class ObjectAttributesDetail {
      * 是否为进行中
      */
     @JsonProperty("work_in_progress")
-    private boolean workInProgress;
+    private Boolean workInProgress;
 
     /**
      * 总时间花费
@@ -254,13 +254,13 @@ public class ObjectAttributesDetail {
      * 阻塞讨论已解决
      */
     @JsonProperty("blocking_discussions_resolved")
-    private boolean blockingDiscussionsResolved;
+    private Boolean blockingDiscussionsResolved;
 
     /**
      * 是否是第一次贡献
      */
     @JsonProperty("first_contribution")
-    private boolean firstContribution;
+    private Boolean firstContribution;
 
     /**
      * 详细合并状态
