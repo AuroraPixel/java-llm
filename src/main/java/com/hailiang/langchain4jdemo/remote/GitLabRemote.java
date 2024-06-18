@@ -47,4 +47,19 @@ public class GitLabRemote {
         return null;
     }
 
+    @ExternalApi(path = "{projectId}/merge_requests/{mergeRequestId}/diffs", method = "GET", client = "gitClient")
+    public String getMergeRequestDiff(@PathVariable("projectId") String projectId, @PathVariable("mergeRequestId") String mergeRequestId) {
+        return null;
+    }
+
+
+    /**
+     * 获取提交的差异
+     * @return
+     */
+    @ExternalApi(path = "{projectId}/repository/commits/{sha}/diff", method = "GET", client = "gitClient")
+    public String getCommitDiff(@PathVariable("projectId") String projectId, @PathVariable("sha") String sha){
+        return null;
+    }
+
 }

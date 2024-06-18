@@ -339,7 +339,7 @@ public class MergeRequestInfo {
      * 差异引用
      */
     @JsonProperty("diff_refs")
-    private DiffRefsDetail diffRefsDetail;
+    private DiffRefsDetail diffRefs;
 
     /**
      * 合并错误
