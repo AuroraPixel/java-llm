@@ -1,4 +1,4 @@
-package com.hailiang.langchain4jdemo.response.pojo;
+package com.hailiang.langchain4jdemo.pojo;
 
 
 import dev.langchain4j.model.output.structured.Description;

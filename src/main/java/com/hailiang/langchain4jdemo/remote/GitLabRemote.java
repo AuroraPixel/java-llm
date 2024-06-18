@@ -3,6 +3,8 @@ package com.hailiang.langchain4jdemo.remote;
 
 
 import com.hailiang.langchain4jdemo.annotations.ExternalApi;
+import com.hailiang.langchain4jdemo.pojo.gitlab.CommitInfo;
+import com.hailiang.langchain4jdemo.pojo.gitlab.MergeRequestInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +23,7 @@ public class GitLabRemote {
      * @return
      */
     @ExternalApi(path = "{projectId}/repository/compare", method = "GET", client = "gitClient")
-    public String compare(@PathVariable("projectId") String projectId, @RequestParam("from") String from, @RequestParam("to")String to) {
+    public CommitInfo compare(@PathVariable("projectId") String projectId, @RequestParam("from") String from, @RequestParam("to")String to) {
         return null;
     }
 
@@ -41,7 +43,7 @@ public class GitLabRemote {
      * @return
      */
     @ExternalApi(path = "{projectId}/merge_requests/{mergeRequestId}", method = "GET", client = "gitClient")
-    public String getSingleMR(@PathVariable("projectId") String projectId,@PathVariable("mergeRequestId") String mergeRequestId) {
+    public MergeRequestInfo getSingleMR(@PathVariable("projectId") String projectId, @PathVariable("mergeRequestId") String mergeRequestId) {
         return null;
     }
 

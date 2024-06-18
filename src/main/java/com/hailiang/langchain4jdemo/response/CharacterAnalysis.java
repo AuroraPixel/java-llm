@@ -1,8 +1,7 @@
 package com.hailiang.langchain4jdemo.response;
 
-import com.hailiang.langchain4jdemo.response.pojo.Person;
-import com.hailiang.langchain4jdemo.response.pojo.PersonWithDescription;
-import com.hailiang.langchain4jdemo.response.pojo.Persons;
+import com.hailiang.langchain4jdemo.pojo.Person;
+import com.hailiang.langchain4jdemo.pojo.Persons;
 import dev.langchain4j.service.UserMessage;
 
 import java.util.List;

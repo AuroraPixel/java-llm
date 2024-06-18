@@ -1,6 +1,6 @@
 package com.hailiang.langchain4jdemo.tools;
 
-import com.hailiang.langchain4jdemo.response.pojo.Booking;
+import com.hailiang.langchain4jdemo.pojo.Booking;
 import com.hailiang.langchain4jdemo.service.BookingService;
 import dev.langchain4j.agent.tool.Tool;
 import org.springframework.beans.factory.annotation.Autowired;

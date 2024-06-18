@@ -1,7 +1,7 @@
 package com.hailiang.langchain4jdemo.service;
 
-import com.hailiang.langchain4jdemo.response.pojo.Booking;
-import com.hailiang.langchain4jdemo.response.pojo.Customer;
+import com.hailiang.langchain4jdemo.pojo.Booking;
+import com.hailiang.langchain4jdemo.pojo.Customer;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

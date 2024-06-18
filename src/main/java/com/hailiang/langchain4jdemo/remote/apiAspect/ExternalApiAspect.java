@@ -1,6 +1,7 @@
 package com.hailiang.langchain4jdemo.remote.apiAspect;
 
 
+import cn.hutool.json.JSONUtil;
 import com.hailiang.langchain4jdemo.annotations.ExternalApi;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Mono;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +38,7 @@ public class ExternalApiAspect {
     public Object handleExternalApi(ProceedingJoinPoint pjp, ExternalApi externalApi) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Method method = methodSignature.getMethod();
+        Type returnType = method.getGenericReturnType();
         Object[] args = pjp.getArgs();
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
 
@@ -99,6 +102,7 @@ public class ExternalApiAspect {
                                     "请求失败，状态码: " + clientResponse.statusCode() + ", 错误信息: " + errorBody)));
                 })
                 .bodyToMono(String.class);
-        return response.block();
+        String responseBody = response.block();
+        return JSONUtil.toBean(responseBody, returnType, true);
     }
 }
