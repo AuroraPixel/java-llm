@@ -90,6 +90,7 @@ class GitRemoteTests {
         gitLabRemote.CommentMergeRequest(915,8,commentRequest);
     }
 
+    @Test
     void TestErrorCode(){
         List<String> result = new ArrayList<>();
         System.out.println(result.get(1));
