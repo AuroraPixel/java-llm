@@ -5,9 +5,12 @@ package com.hailiang.langchain4jdemo.remote;
 import com.hailiang.langchain4jdemo.annotations.ExternalApi;
 import com.hailiang.langchain4jdemo.pojo.gitlab.CommitInfo;
 import com.hailiang.langchain4jdemo.pojo.gitlab.MergeRequestInfo;
+import com.hailiang.langchain4jdemo.pojo.gitlab.detail.DiffDetail;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * gitlab远程调用接口
@@ -58,7 +61,7 @@ public class GitLabRemote {
      * @return
      */
     @ExternalApi(path = "{projectId}/repository/commits/{sha}/diff", method = "GET", client = "gitClient")
-    public String getCommitDiff(@PathVariable("projectId") String projectId, @PathVariable("sha") String sha){
+    public List<DiffDetail> getCommitDiff(@PathVariable("projectId") String projectId, @PathVariable("sha") String sha){
         return null;
     }
 
