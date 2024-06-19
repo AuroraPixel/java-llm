@@ -3,6 +3,7 @@ package com.hailiang.langchain4jdemo.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.hailiang.langchain4jdemo.agent.CodeReviewAgent;
 import com.hailiang.langchain4jdemo.pojo.gitlab.WebHookRequest;
 import com.hailiang.langchain4jdemo.pojo.gitlab.detail.DiffDetail;
 import com.hailiang.langchain4jdemo.pojo.gitlab.detail.LastCommitDetail;
@@ -25,7 +26,7 @@ public class CodeReviewServiceImpl implements CodeReviewService {
     @Autowired
     private GitLabRemote gitLabRemote;
     @Autowired
-    private ChatLanguageModel chatLanguageModel;
+    private CodeReviewAgent codeReviewAgent;
     @Override
     public void review(WebHookRequest request) {
         if(ObjectUtil.isNull(request)){
@@ -98,13 +99,6 @@ public class CodeReviewServiceImpl implements CodeReviewService {
         for (DiffDetail diffDetail : diffDetails) {
             codeList.add(diffDetail.getBeforeAndAfterDiff());
         }
-        System.out.println(codeReviewAgent(codeList));
-    }
-
-    public String codeReviewAgent(List<String> codeList){
-        CodeReview codeReviewAiServices = AiServices.builder(CodeReview.class).chatLanguageModel(chatLanguageModel)
-                //.contentRetriever(contentRetriever)
-                .build();
-        return codeReviewAiServices.codeReview(codeList);
+        System.out.println(codeReviewAgent.codeReview(codeList));
     }
 }

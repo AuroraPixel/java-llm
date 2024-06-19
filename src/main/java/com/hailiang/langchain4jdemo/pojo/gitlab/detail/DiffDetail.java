@@ -86,10 +86,20 @@ public class DiffDetail {
     }
 
     public String getBeforeAndAfterDiff(){
-        return "变更前\n" + getBeforeDiff() + "\n" + "变更后\n" + getAfterDiff();
+        return "代码名:\n"+getCodeName()+"\n"+"变更前:\n" + getBeforeDiff() + "\n" + "变更后:\n" + getAfterDiff();
     }
 
-    public static String getChangedBlock(String diff, boolean isOldVersion) {
+    public String getCodeName(){
+        if(StrUtil.isNotEmpty(newPath)){
+            String[] split = newPath.split("/");
+            if(split.length > 0){
+                return split[split.length - 1];
+            }
+        }
+        return "";
+    }
+
+    private String getChangedBlock(String diff, boolean isOldVersion) {
         StringBuilder result = new StringBuilder();
         String[] diffLines = diff.split("\n");
         int originalLineNumber = 0;

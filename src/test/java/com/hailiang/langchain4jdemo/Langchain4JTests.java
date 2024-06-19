@@ -349,8 +349,6 @@ class Langchain4JTests {
 //                "// 但事实上 equals 的结果为 false\n" +
 //                "}");
 //        System.out.println(chat);
-        String s = codeReviewAiServices.codeReview("float a = 1.0f - 0.9f;\n", "float b = 0.9 - 0.8;\n");
-        System.out.println(s);
     }
 
 

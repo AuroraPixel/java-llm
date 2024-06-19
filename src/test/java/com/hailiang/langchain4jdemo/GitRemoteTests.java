@@ -1,5 +1,6 @@
 package com.hailiang.langchain4jdemo;
 
+import com.hailiang.langchain4jdemo.agent.CodeReviewAgent;
 import com.hailiang.langchain4jdemo.pojo.gitlab.CommitInfo;
 import com.hailiang.langchain4jdemo.pojo.gitlab.MergeRequestInfo;
 import com.hailiang.langchain4jdemo.pojo.gitlab.detail.DiffDetail;
@@ -16,6 +17,8 @@ import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.load
 class GitRemoteTests {
     @Autowired
     private GitLabRemote gitLabRemote;
+    @Autowired
+    private CodeReviewAgent codeReviewAgent;
 
     @Test
     void TestGitLabRemoteCompare(){
@@ -65,5 +68,13 @@ class GitRemoteTests {
         List<DiffDetail> commitDiff = gitLabRemote.getCommitDiff(915, "fec3d403f2cd1c54606ce8e85c9243a75c9284a2");
         System.out.println(commitDiff.get(0).getBeforeDiff());
         System.out.println(commitDiff.get(0).getAfterDiff());
+    }
+
+
+    @Test
+    void TestGetCommitDifWithGpt(){
+        List<DiffDetail> commitDiff = gitLabRemote.getCommitDiff(915, "d82f691cd75e4ffb452b106b4bf229f0c9e7243f");
+        List<String> codeList = commitDiff.stream().map(diffDetail -> diffDetail.getBeforeAndAfterDiff()).toList();
+        System.out.println(codeReviewAgent.codeReview(codeList));
     }
 }
