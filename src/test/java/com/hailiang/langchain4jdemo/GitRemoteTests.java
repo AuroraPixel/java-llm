@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
@@ -87,5 +88,10 @@ class GitRemoteTests {
         commentRequest.setId(915);
         commentRequest.setMergeRequestId(9);
         gitLabRemote.CommentMergeRequest(915,8,commentRequest);
+    }
+
+    void TestErrorCode(){
+        List<String> result = new ArrayList<>();
+        System.out.println(result.get(1));
     }
 }
