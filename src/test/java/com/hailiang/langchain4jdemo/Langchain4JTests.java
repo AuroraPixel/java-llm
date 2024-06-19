@@ -361,7 +361,7 @@ class Langchain4JTests {
         interact(agent, "123-457");
         interact(agent, "对不起我忘记是哪一天。 名字叫:Klaus Heisler.");
         interact(agent, "对不起,房间号是 123-456");
-        interact(agent, "我想取消我的预订");
+        interact(agent, "我想取消我的预订1");
     }
 
     private static void interact(CustomerSupport agent, String userMessage) {
