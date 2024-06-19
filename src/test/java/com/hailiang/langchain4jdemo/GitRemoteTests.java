@@ -1,6 +1,7 @@
 package com.hailiang.langchain4jdemo;
 
 import com.hailiang.langchain4jdemo.agent.CodeReviewAgent;
+import com.hailiang.langchain4jdemo.pojo.gitlab.CommentRequest;
 import com.hailiang.langchain4jdemo.pojo.gitlab.CommitInfo;
 import com.hailiang.langchain4jdemo.pojo.gitlab.MergeRequestInfo;
 import com.hailiang.langchain4jdemo.pojo.gitlab.detail.DiffDetail;
@@ -76,5 +77,15 @@ class GitRemoteTests {
         List<DiffDetail> commitDiff = gitLabRemote.getCommitDiff(915, "d82f691cd75e4ffb452b106b4bf229f0c9e7243f");
         List<String> codeList = commitDiff.stream().map(diffDetail -> diffDetail.getBeforeAndAfterDiff()).toList();
         System.out.println(codeReviewAgent.codeReview(codeList));
+    }
+
+
+    @Test
+    void TestCommentMergeRequest(){
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setBody("测试");
+        commentRequest.setId(915);
+        commentRequest.setMergeRequestId(9);
+        gitLabRemote.CommentMergeRequest(915,8,commentRequest);
     }
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.hailiang.langchain4jdemo.agent.CodeReviewAgent;
+import com.hailiang.langchain4jdemo.pojo.gitlab.CommentRequest;
 import com.hailiang.langchain4jdemo.pojo.gitlab.WebHookRequest;
 import com.hailiang.langchain4jdemo.pojo.gitlab.detail.DiffDetail;
 import com.hailiang.langchain4jdemo.pojo.gitlab.detail.LastCommitDetail;
@@ -14,6 +15,7 @@ import com.hailiang.langchain4jdemo.remote.GitLabRemote;
 import com.hailiang.langchain4jdemo.service.CodeReviewService;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.service.AiServices;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ import java.util.List;
 
 
 @Service
+@Slf4j
 public class CodeReviewServiceImpl implements CodeReviewService {
     @Autowired
     private GitLabRemote gitLabRemote;
@@ -99,6 +102,13 @@ public class CodeReviewServiceImpl implements CodeReviewService {
         for (DiffDetail diffDetail : diffDetails) {
             codeList.add(diffDetail.getBeforeAndAfterDiff());
         }
-        System.out.println(codeReviewAgent.codeReview(codeList));
+        log.info("gpt开始对代码进行审查");
+        String comment = codeReviewAgent.codeReview(codeList);
+        log.info("gpt对代码审查完成");
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setMergeRequestId(mergeRequestId);
+        commentRequest.setId(projectId);
+        commentRequest.setBody(comment);
+        gitLabRemote.CommentMergeRequest(projectId,mergeRequestId,commentRequest);
     }
 }
