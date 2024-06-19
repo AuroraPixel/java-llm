@@ -62,7 +62,7 @@ class GitRemoteTests {
     @Test
     void TestGetCommitDif(){
         List<DiffDetail> commitDiff = gitLabRemote.getCommitDiff("915", "fec3d403f2cd1c54606ce8e85c9243a75c9284a2");
-        System.out.println(commitDiff.get(1).getBeforeDiff());
-        System.out.println(commitDiff.get(1).getAfterDiff());
+        System.out.println(commitDiff.get(0).getBeforeDiff());
+        System.out.println(commitDiff.get(0).getAfterDiff());
     }
 }
