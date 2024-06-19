@@ -84,7 +84,7 @@ class GitRemoteTests {
     @Test
     void TestCommentMergeRequest(){
         CommentRequest commentRequest = new CommentRequest();
-        commentRequest.setBody("测试");
+        commentRequest.setBody("测试11");
         commentRequest.setId(915);
         commentRequest.setMergeRequestId(9);
         gitLabRemote.CommentMergeRequest(915,8,commentRequest);
