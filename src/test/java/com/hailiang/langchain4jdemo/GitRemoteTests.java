@@ -20,13 +20,14 @@ class GitRemoteTests {
     @Test
     void TestGitLabRemoteCompare(){
         CommitInfo compare = gitLabRemote.compare("915","7041330bb734a35697fa91c7e722337bbe530bc2", "45642963166431b3fb9aa35135ad311768e8fb81");
-        System.out.println(compare.getDiffs().get(7).getDiff());
-        System.out.println("变更前");
-        System.out.println(compare.getDiffs().get(7).getBeforeDiff());
-        System.out.println("变更后");
-        System.out.println(compare.getDiffs().get(7).getAfterDiff());
-        System.out.println("在线网址");
-        System.out.println(compare.getWebUrl());
+//        System.out.println(compare.getDiffs().get(7).getDiff());
+//        System.out.println("变更前");
+//        System.out.println(compare.getDiffs().get(7).getBeforeDiff());
+//        System.out.println("变更后");
+//        System.out.println(compare.getDiffs().get(7).getAfterDiff());
+//        System.out.println("在线网址");
+//        System.out.println(compare.getWebUrl());
+        System.out.println(compare.getDiffs().get(7).getBeforeAndAfterDiff());
     }
 
     @Test

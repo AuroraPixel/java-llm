@@ -4,6 +4,8 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
 
+import java.util.List;
+
 public interface CodeReview {
     @SystemMessage({
             "你是一名code review专家，现在需要你来对一些变更的代码进行分析检查。",
@@ -17,11 +19,9 @@ public interface CodeReview {
             "2.要重点关注前后逻辑是否会引发空指针异常。",
     })
     @UserMessage({
-            "变更前:",
-            "{{before}}",
-            "变更后:",
-            "{{after}}",
+            "以下是一些变更前后代码内容:",
+            "{{}}"
 
     })
-    String codeReview(@V("before")String before, @V("after")String after);
+    String codeReview(@V("codeList")List<String> codeList);
 }

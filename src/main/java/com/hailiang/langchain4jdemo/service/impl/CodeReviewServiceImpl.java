@@ -94,15 +94,17 @@ public class CodeReviewServiceImpl implements CodeReviewService {
         if(CollUtil.isEmpty(diffDetails)){
             return;
         }
+        List<String> codeList = new ArrayList<>();
         for (DiffDetail diffDetail : diffDetails) {
-            System.out.println(codeReviewAgent(diffDetail.getBeforeDiff(), diffDetail.getAfterDiff()));
+            codeList.add(diffDetail.getBeforeAndAfterDiff());
         }
+        System.out.println(codeReviewAgent(codeList));
     }
 
-    public String codeReviewAgent(String before, String after){
+    public String codeReviewAgent(List<String> codeList){
         CodeReview codeReviewAiServices = AiServices.builder(CodeReview.class).chatLanguageModel(chatLanguageModel)
                 //.contentRetriever(contentRetriever)
                 .build();
-        return codeReviewAiServices.codeReview(before, after);
+        return codeReviewAiServices.codeReview(codeList);
     }
 }

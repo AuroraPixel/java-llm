@@ -85,6 +85,10 @@ public class DiffDetail {
         return getChangedBlock(diff, false);
     }
 
+    public String getBeforeAndAfterDiff(){
+        return "变更前\n" + getBeforeDiff() + "\n" + "变更后\n" + getAfterDiff();
+    }
+
     public static String getChangedBlock(String diff, boolean isOldVersion) {
         StringBuilder result = new StringBuilder();
         String[] diffLines = diff.split("\n");
