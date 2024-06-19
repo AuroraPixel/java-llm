@@ -38,7 +38,7 @@ class GitRemoteTests {
 
     @Test
     void TestGitLabRemoteSingleMR(){
-        MergeRequestInfo compare = gitLabRemote.getSingleMR("915","5");
+        MergeRequestInfo compare = gitLabRemote.getSingleMR("915","6");
         System.out.println(compare);
     }
 
