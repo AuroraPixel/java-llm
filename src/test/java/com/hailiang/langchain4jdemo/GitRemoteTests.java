@@ -45,8 +45,8 @@ class GitRemoteTests {
 
     @Test
     void TestGitLabRemoteMergeRequestDiff(){
-        String compare = gitLabRemote.getMergeRequestDiff("915","5");
-        System.out.println(compare);
+        String mergeRequestDiff = gitLabRemote.getMergeRequestDiff(915,8);
+        System.out.println(mergeRequestDiff);
     }
 
 
