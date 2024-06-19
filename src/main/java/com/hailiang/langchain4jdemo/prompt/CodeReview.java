@@ -1,14 +1,27 @@
 package com.hailiang.langchain4jdemo.prompt;
 
 import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
+import dev.langchain4j.service.V;
 
 public interface CodeReview {
     @SystemMessage({
-            "你是一名代码检查工具的虚拟助理。",
-            "请根据给你提供代码规范文档，进行代码规范检查。",
-            "在提供任何代码检查建议或修复之前，你必须检查以下信息：",
-            "代码文件名，行号，错误信息或警告信息，代码不规范的原因,以及说明。",
-            "所有的回答，请用中文回答"
+            "你是一名code review专家，现在需要你来对一些变更的代码进行分析检查。",
+            "变更前后代码每行行首都该行的行数，行数后的+号或-号代表代码增减。",
+            "没有问题点请不要描述和展示。",
+            "如果审查没有问题，可以进行少量语言描述通过许可就行。",
+            "如果有问题请提出你的改进意见。",
+            "请给出检查的建议和对应的代码行数，并以一个言语精简和markdown的格式返回,可以适量使用emoji进行美化。",
+            "请注意如下规则:",
+            "1.按照Java代码规范进行审查。",
+            "2.要重点关注前后逻辑是否会引发空指针异常。",
     })
-    String chat(String userMessage);
+    @UserMessage({
+            "变更前:",
+            "{{before}}",
+            "变更后:",
+            "{{after}}",
+
+    })
+    String codeReview(@V("before")String before, @V("after")String after);
 }

@@ -45,7 +45,7 @@ class GitRemoteTests {
 
     @Test
     void TestGitLabRemoteMergeRequestDiff(){
-        String mergeRequestDiff = gitLabRemote.getMergeRequestDiff(915,8);
+        List<DiffDetail> mergeRequestDiff = gitLabRemote.getMergeRequestDiff(915,8);
         System.out.println(mergeRequestDiff);
     }
 
@@ -61,7 +61,7 @@ class GitRemoteTests {
 
     @Test
     void TestGetCommitDif(){
-        List<DiffDetail> commitDiff = gitLabRemote.getCommitDiff("915", "fec3d403f2cd1c54606ce8e85c9243a75c9284a2");
+        List<DiffDetail> commitDiff = gitLabRemote.getCommitDiff(915, "fec3d403f2cd1c54606ce8e85c9243a75c9284a2");
         System.out.println(commitDiff.get(0).getBeforeDiff());
         System.out.println(commitDiff.get(0).getAfterDiff());
     }

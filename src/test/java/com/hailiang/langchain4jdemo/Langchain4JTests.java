@@ -334,21 +334,23 @@ class Langchain4JTests {
                 .minScore(0.9) // 最小匹配得分
                 .build();
         CodeReview codeReviewAiServices = AiServices.builder(CodeReview.class).chatLanguageModel(chatModel)
-                .contentRetriever(contentRetriever)
+                //.contentRetriever(contentRetriever)
                 .build();
-        String chat = codeReviewAiServices.chat("float a = 1.0f - 0.9f;\n" +
-                "float b = 0.9f - 0.8f;\n" +
-                "if (a == b) {\n" +
-                "// 预期进入此代码快，执行其它业务逻辑\n" +
-                "// 但事实上 a==b 的结果为 false\n" +
-                "}\n" +
-                "Float x = Float.valueOf(a);\n" +
-                "Float y = Float.valueOf(b);\n" +
-                "if (x.equals(y)) {\n" +
-                "// 预期进入此代码快，执行其它业务逻辑\n" +
-                "// 但事实上 equals 的结果为 false\n" +
-                "}");
-        System.out.println(chat);
+//        String chat = codeReviewAiServices.chat("float a = 1.0f - 0.9f;\n" +
+//                "float b = 0.9f - 0.8f;\n" +
+//                "if (a == b) {\n" +
+//                "// 预期进入此代码快，执行其它业务逻辑\n" +
+//                "// 但事实上 a==b 的结果为 false\n" +
+//                "}\n" +
+//                "Float x = Float.valueOf(a);\n" +
+//                "Float y = Float.valueOf(b);\n" +
+//                "if (x.equals(y)) {\n" +
+//                "// 预期进入此代码快，执行其它业务逻辑\n" +
+//                "// 但事实上 equals 的结果为 false\n" +
+//                "}");
+//        System.out.println(chat);
+        String s = codeReviewAiServices.codeReview("float a = 1.0f - 0.9f;\n", "float b = 0.9 - 0.8;\n");
+        System.out.println(s);
     }
 
 

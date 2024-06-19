@@ -51,7 +51,7 @@ public class GitLabRemote {
     }
 
     @ExternalApi(path = "{projectId}/merge_requests/{mergeRequestId}/diffs", method = "GET", client = "gitClient")
-    public String getMergeRequestDiff(@PathVariable("projectId") Integer projectId, @PathVariable("mergeRequestId") Integer mergeRequestId) {
+    public List<DiffDetail> getMergeRequestDiff(@PathVariable("projectId") Integer projectId, @PathVariable("mergeRequestId") Integer mergeRequestId) {
         return null;
     }
 
@@ -61,7 +61,7 @@ public class GitLabRemote {
      * @return
      */
     @ExternalApi(path = "{projectId}/repository/commits/{sha}/diff", method = "GET", client = "gitClient")
-    public List<DiffDetail> getCommitDiff(@PathVariable("projectId") String projectId, @PathVariable("sha") String sha){
+    public List<DiffDetail> getCommitDiff(@PathVariable("projectId") Integer projectId, @PathVariable("sha") String sha){
         return null;
     }
 
