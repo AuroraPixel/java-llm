@@ -16,7 +16,7 @@ public class GitHook {
 
     @PostMapping("/test")
     public void Test(@RequestBody WebHookRequest request) {
-        log.info("request:{}",request);
+        log.info("request:{}",request.toString());
         codeReviewService.review(request);
     }
 }
