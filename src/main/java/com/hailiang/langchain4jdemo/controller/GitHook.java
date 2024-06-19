@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GitHook {
 
     @PostMapping("/test")
-    public void Test(@RequestBody WebHookRequest request) {
+    public void Test(@RequestBody String request) {
         System.out.println("git hook test-2:"+request);
     }
 }
