@@ -6,6 +6,8 @@ import com.hailiang.langchain4jdemo.pojo.gitlab.CommitInfo;
 import com.hailiang.langchain4jdemo.pojo.gitlab.MergeRequestInfo;
 import com.hailiang.langchain4jdemo.pojo.gitlab.detail.DiffDetail;
 import com.hailiang.langchain4jdemo.remote.GitLabRemote;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,9 @@ class GitRemoteTests {
     private GitLabRemote gitLabRemote;
     @Autowired
     private CodeReviewAgent codeReviewAgent;
+
+    @Autowired
+    private ChatLanguageModel model;
 
     @Test
     void TestGitLabRemoteCompare(){
@@ -94,5 +99,20 @@ class GitRemoteTests {
     void TestErrorCode(){
         List<String> result = new ArrayList<>();
         System.out.println(result.get(1));
+    }
+
+
+    @Test
+    void TestLongToken(){
+        List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "c03920553e4b8083fdebc739f5d1e38b6b1bb212");
+        StringBuilder diffString = new StringBuilder();
+        for (DiffDetail diffDetail : diffs) {
+            diffString.append(diffDetail.getBeforeAndAfterDiff());
+            diffString.append("\n");
+        }
+        OpenAiChatModel aiChatModel = (OpenAiChatModel) model;
+        int i = aiChatModel.estimateTokenCount(diffString.toString());
+
+        System.out.println(i);
     }
 }
