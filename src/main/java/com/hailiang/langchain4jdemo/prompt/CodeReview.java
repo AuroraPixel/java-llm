@@ -16,6 +16,7 @@ public interface CodeReview {
             "5. 请注意如下规则：",
             "   - 按照Java代码规范进行审查。",
             "   - 重点关注前后逻辑是否会引发空指针异常。",
+            "   - 输入参数为List类型命名以List结尾",
     })
     @UserMessage({
             "以下是一些变更前后代码内容:",

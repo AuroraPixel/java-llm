@@ -104,6 +104,7 @@ public class CodeReviewServiceImpl implements CodeReviewService {
         log.info("gpt开始对代码进行审查");
         String comment = codeReviewAgent.codeReview(codeList);
         log.info("gpt对代码审查完成");
+        //6.代码评论
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setMergeRequestId(mergeRequestId);
         commentRequest.setId(projectId);
