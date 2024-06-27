@@ -131,13 +131,9 @@ class GitRemoteTests {
     }
 
     @Test
-    void TestNewFunction(List<String> args){
-        //List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "c03920553e4b8083fdebc739f5d1e38b6b1bb212");
-        List<DiffDetail> diffs = gitLabRemote.getCommitDiff(915, "da6305e728d57df8cefa4d59354eff8813a7322b");
-        List<String> codeList = diffs.stream().map(diffDetail -> diffDetail.getBeforeAndAfterDiff()).collect(Collectors.toList());
-        System.out.println(codeList);
-        System.out.println(diffs.size());
-        System.out.println("开始代码审查");
-        System.out.println(codeReviewAgent.codeReview(codeList));
+    void TestNewFunction(List<String> inputs){
+        for (String input : inputs) {
+            System.out.println(input);
+        }
     }
 }
