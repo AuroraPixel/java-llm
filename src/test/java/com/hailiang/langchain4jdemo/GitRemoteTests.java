@@ -122,7 +122,7 @@ class GitRemoteTests {
     @Test
     void TestNewPrompt(){
         //List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "c03920553e4b8083fdebc739f5d1e38b6b1bb212");
-        List<DiffDetail> diffs = gitLabRemote.getCommitDiff(915, "da6305e728d57df8cefa4d59354eff8813a7322b");
+        List<DiffDetail> diffs = gitLabRemote.getCommitDiff(915, "58cca668d1f6c99dd9ee62f234ffda4b378bf9fa");
         List<String> codeList = diffs.stream().map(diffDetail -> diffDetail.getBeforeAndAfterDiff()).collect(Collectors.toList());
         System.out.println(codeList);
         System.out.println(diffs.size());
