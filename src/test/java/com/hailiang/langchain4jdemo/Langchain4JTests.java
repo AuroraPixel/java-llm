@@ -2,7 +2,6 @@ package com.hailiang.langchain4jdemo;
 
 import cn.hutool.core.collection.ListUtil;
 import com.hailiang.langchain4jdemo.prompt.*;
-import com.hailiang.langchain4jdemo.remote.GitLabRemote;
 import com.hailiang.langchain4jdemo.response.CharacterAnalysis;
 import com.hailiang.langchain4jdemo.response.InputReview;
 import com.hailiang.langchain4jdemo.response.NumberAndDateExtractor;
@@ -41,9 +40,11 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 
@@ -382,6 +383,7 @@ class Langchain4JTests {
             throw new RuntimeException(e);
         }
     }
+
 
 
 
