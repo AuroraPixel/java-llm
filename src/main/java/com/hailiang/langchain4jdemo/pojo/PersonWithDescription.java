@@ -18,7 +18,7 @@ public class PersonWithDescription {
      * 年龄
      */
     @Description("故事人物的年龄")
-    private Integer age;
+    private String age;
     /**
      * 性别
      */
@@ -28,7 +28,7 @@ public class PersonWithDescription {
      * 生日
      */
     @Description("故事人物的生日")
-    private LocalDateTime birthday;
+    private String birthday;
 
     @Description("故事人物的职业")
     private String b;

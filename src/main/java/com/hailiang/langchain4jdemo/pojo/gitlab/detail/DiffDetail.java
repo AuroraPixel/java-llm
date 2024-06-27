@@ -89,6 +89,10 @@ public class DiffDetail {
         return "代码名:\n"+getCodeName()+"\n"+"变更前:\n" + getBeforeDiff() + "\n" + "变更后:\n" + getAfterDiff();
     }
 
+    public String getDiffAndCodeName(){
+        return "代码名:\n"+getCodeName()+"\n"+"差异内容:\n" + getCodeName() + "\n" + getDiff();
+    }
+
     public String getCodeName(){
         if(StrUtil.isNotEmpty(newPath)){
             String[] split = newPath.split("/");
