@@ -130,6 +130,7 @@ class GitRemoteTests {
         System.out.println(codeReviewAgent.codeReview(codeList));
     }
 
+    @Test
     void TestNewFunction(List<String> args){
         //List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "c03920553e4b8083fdebc739f5d1e38b6b1bb212");
         List<DiffDetail> diffs = gitLabRemote.getCommitDiff(915, "da6305e728d57df8cefa4d59354eff8813a7322b");
