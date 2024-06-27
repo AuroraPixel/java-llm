@@ -8,13 +8,13 @@ hailiang:
     # 大模型
     llm:
       # 供应商
-      provider-name: ollma
+      provider-name: openai
       # 模型名称
-      model-name: llama3
+      model-name: qwen-plus
       # url
-      base-url: http://localhost:11434/
+      base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
       # api-key
-      api-key: sk-gRbZ9FJz2E7c7mwO5JOvp2u2rtoWoAbg12CxDy3Y25eLeDvd
+      api-key: sk-1513783e8ea84bc083e94216ed06a9a7
     # 向量模型
     embedding:
       # 供应商
