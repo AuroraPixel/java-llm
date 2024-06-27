@@ -66,10 +66,10 @@ class Langchain4JTests {
      */
     @Test
     void TestChatModel() {
-        String response = chatModel.generate("你是谁?");
+        String response = chatModel.generate("你是谁，你最大支持多大token?");
         System.out.println(response);
-        String response1 = chatModel.generate("你是openai研发的吗?");
-        System.out.println(response1);
+//        String response1 = chatModel.generate("你是openai研发的吗?");
+//        System.out.println(response1);
     }
 
 
@@ -96,7 +96,7 @@ class Langchain4JTests {
         });
 
         try {
-            Thread.sleep(60000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -334,21 +334,21 @@ class Langchain4JTests {
                 .minScore(0.9) // 最小匹配得分
                 .build();
         CodeReview codeReviewAiServices = AiServices.builder(CodeReview.class).chatLanguageModel(chatModel)
-                //.contentRetriever(contentRetriever)
+                .contentRetriever(contentRetriever)
                 .build();
-//        String chat = codeReviewAiServices.chat("float a = 1.0f - 0.9f;\n" +
-//                "float b = 0.9f - 0.8f;\n" +
-//                "if (a == b) {\n" +
-//                "// 预期进入此代码快，执行其它业务逻辑\n" +
-//                "// 但事实上 a==b 的结果为 false\n" +
-//                "}\n" +
-//                "Float x = Float.valueOf(a);\n" +
-//                "Float y = Float.valueOf(b);\n" +
-//                "if (x.equals(y)) {\n" +
-//                "// 预期进入此代码快，执行其它业务逻辑\n" +
-//                "// 但事实上 equals 的结果为 false\n" +
-//                "}");
-//        System.out.println(chat);
+        String chat = codeReviewAiServices.chat("float a = 1.0f - 0.9f;\n" +
+                "float b = 0.9f - 0.8f;\n" +
+                "if (a == b) {\n" +
+                "// 预期进入此代码快，执行其它业务逻辑\n" +
+                "// 但事实上 a==b 的结果为 false\n" +
+                "}\n" +
+                "Float x = Float.valueOf(a);\n" +
+                "Float y = Float.valueOf(b);\n" +
+                "if (x.equals(y)) {\n" +
+                "// 预期进入此代码快，执行其它业务逻辑\n" +
+                "// 但事实上 equals 的结果为 false\n" +
+                "}");
+        System.out.println(chat);
     }
 
 

@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 
@@ -81,7 +82,7 @@ class GitRemoteTests {
     @Test
     void TestGetCommitDifWithGpt(){
         List<DiffDetail> commitDiff = gitLabRemote.getCommitDiff(915, "d82f691cd75e4ffb452b106b4bf229f0c9e7243f");
-        List<String> codeList = commitDiff.stream().map(diffDetail -> diffDetail.getBeforeAndAfterDiff()).toList();
+        List<String> codeList = commitDiff.stream().map(diffDetail -> diffDetail.getBeforeAndAfterDiff()).collect(Collectors.toList());
         System.out.println(codeReviewAgent.codeReview(codeList));
     }
 
@@ -104,15 +105,27 @@ class GitRemoteTests {
 
     @Test
     void TestLongToken(){
-        List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "c03920553e4b8083fdebc739f5d1e38b6b1bb212");
+        List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "40bdab89a1c45d6c41f1101954b541cb828dd68b");
         StringBuilder diffString = new StringBuilder();
+        diffs = diffs.stream().limit(20).skip(15).collect(Collectors.toList());
         for (DiffDetail diffDetail : diffs) {
-            diffString.append(diffDetail.getBeforeAndAfterDiff());
+            diffString.append(diffDetail.getDiffAndCodeName());
             diffString.append("\n");
         }
         OpenAiChatModel aiChatModel = (OpenAiChatModel) model;
         int i = aiChatModel.estimateTokenCount(diffString.toString());
 
         System.out.println(i);
+    }
+
+
+    @Test
+    void TestNewPrompt(){
+        //List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "c03920553e4b8083fdebc739f5d1e38b6b1bb212");
+        List<DiffDetail> diffs = gitLabRemote.getCommitDiff(553, "40bdab89a1c45d6c41f1101954b541cb828dd68b");
+        List<String> codeList = diffs.stream().map(diffDetail -> diffDetail.getBeforeAndAfterDiff()).collect(Collectors.toList());
+        System.out.println(diffs.size());
+        System.out.println("开始代码审查");
+        System.out.println(codeReviewAgent.codeReview(codeList));
     }
 }

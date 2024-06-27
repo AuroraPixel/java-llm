@@ -15,7 +15,7 @@ public class Person {
     /**
      * 年龄
      */
-    private Integer age;
+    private String age;
     /**
      * 性别
      */
@@ -23,5 +23,5 @@ public class Person {
     /**
      * 生日
      */
-    private LocalDateTime birthday;
+    private String birthday;
 }

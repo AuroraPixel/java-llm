@@ -96,17 +96,12 @@ public class CodeReviewServiceImpl implements CodeReviewService {
             return;
         }
         List<String> codeList = new ArrayList<>();
-        int i = 0;
         for (DiffDetail diffDetail : diffDetails) {
-            i++;
-            if(i>10){
-                break;
-            }
             codeList.add(diffDetail.getBeforeAndAfterDiff());
         }
         log.info("gpt开始对代码进行审查");
         String comment = codeReviewAgent.codeReview(codeList);
-        log.debug("gpt对代码审查完成");
+        log.info("gpt对代码审查完成");
         CommentRequest commentRequest = new CommentRequest();
         commentRequest.setMergeRequestId(mergeRequestId);
         commentRequest.setId(projectId);
