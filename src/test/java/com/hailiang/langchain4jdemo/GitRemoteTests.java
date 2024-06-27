@@ -136,4 +136,11 @@ class GitRemoteTests {
             System.out.println(input);
         }
     }
+
+    @Test
+    void TestInput(List<String> inputs){
+        for (String input : inputs) {
+            System.out.println(input);
+        }
+    }
 }
