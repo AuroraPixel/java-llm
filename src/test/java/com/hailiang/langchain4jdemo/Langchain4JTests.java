@@ -155,6 +155,7 @@ class Langchain4JTests {
      * 结构化输出
      */
     @Test
+    // todo
     void TestBaseTypeStructResponse(){
         //1.枚举类的响应
         SentimentAnalyzer sentimentAnalyzer = AiServices.create(SentimentAnalyzer.class, chatModel);
