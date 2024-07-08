@@ -69,6 +69,8 @@ class Langchain4JTests {
     void TestChatModel() {
         String response = chatModel.generate("你是谁，你最大支持多大token?");
         System.out.println(response);
+        String response1 = chatModel.generate("我刚刚提问了什么?");
+        System.out.println(response1);
 //        String response1 = chatModel.generate("你是openai研发的吗?");
 //        System.out.println(response1);
     }

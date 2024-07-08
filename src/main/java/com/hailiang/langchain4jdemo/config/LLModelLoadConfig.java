@@ -66,7 +66,9 @@ public class LLModelLoadConfig {
         //openai
         if(properties.getProviderName().equals("openai")){
             return OpenAiChatModel.builder().modelName(properties.getModelName())
-                    .apiKey(properties.getApiKey()).baseUrl(properties.getBaseUrl()).build();
+                    .apiKey(properties.getApiKey()).baseUrl(properties.getBaseUrl())
+                    .responseFormat("{\"type\": \"json_object\"}")
+                    .build();
         }
         //qianfan
         if(properties.getProviderName().equals("qianfan")){

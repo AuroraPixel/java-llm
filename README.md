@@ -558,7 +558,7 @@ void TestRAGDocumentSearch() {
 ![ragsave.png](image%2Fragsave.png)
 
 检索阶段的简化图
-![ragsave.png](image%2Fragsave.png)
+![ragsearch.png](image/ragsearch.png)
 
 
 ### Agent代理 🤖
