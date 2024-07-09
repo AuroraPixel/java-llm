@@ -18,17 +18,17 @@ public class PersonWithDescription {
      * 年龄
      */
     @Description("故事人物的年龄")
-    private String age;
+    private Integer age;
     /**
      * 性别
      */
-    @Description("故事人物的性别")
-    private String gender;
+    @Description("故事人物的性别:0-男,1-女")
+    private Integer gender;
     /**
      * 生日
      */
-    @Description("故事人物的生日")
-    private String birthday;
+    @Description("故事人物的生日:yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime birthday;
 
     @Description("故事人物的职业")
     private String b;

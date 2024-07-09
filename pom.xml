@@ -94,6 +94,7 @@
             <version>0.31.0</version>
         </dependency>
 
+
         <!-- langchain4j的elas向量存储依赖 -->
         <dependency>
             <groupId>dev.langchain4j</groupId>
@@ -109,7 +110,7 @@
 <!--            <version>8.12.0</version> &lt;!&ndash; 确保版本兼容 &ndash;&gt;-->
 <!--        </dependency>-->
 
-<!--         langchain4j的文档解析器-->
+        <!--         langchain4j的文档解析器-->
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-document-parser-apache-tika</artifactId>

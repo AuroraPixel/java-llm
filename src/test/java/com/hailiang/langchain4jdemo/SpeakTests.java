@@ -9,6 +9,7 @@ import dev.langchain4j.data.message.*;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.service.ServiceOutputParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,6 +49,16 @@ public class SpeakTests {
     @Test
     void TestSpeakAnalystPojo(){
         List<Paragraph> paragraphs = loadJsonToObject(new TypeReference<List<Paragraph>>() {
+        }, "/example-files/asr_result_1.json");
+        List<String> messages = paragraphs.stream().map(Paragraph::getTextDetail).collect(Collectors.toList());
+        SpeakAnalystResp resp = agent.speakAnalyseWithPojo(messages);
+        System.out.println(resp);
+    }
+
+
+    @Test
+    void TestSpeakAnalystWithSystemMessage(){
+        List<Paragraph> paragraphs = loadJsonToObject(new TypeReference<List<Paragraph>>() {
         }, "/example-files/asr_result.json");
         List<String> messages = paragraphs.stream().map(Paragraph::getTextDetail).collect(Collectors.toList());
         //计算token
@@ -55,17 +66,16 @@ public class SpeakTests {
         List<ChatMessage> chatMessages = new ArrayList<>();
         chatMessages.add(new SystemMessage("1.You are a professional expert in analyzing voice conversations and will only respond to content related to voice conversation analysis."));
         chatMessages.add(new SystemMessage("2.Analyze the voice conversation text, identify different topics, and merge similar content. Then provide a summary of each topic and the merged time intervals."));
-        chatMessages.add(new SystemMessage("3.The output must be in JSON format, and any non-JSON content is strictly prohibited. Only output { ... } and avoid using markdown format such as \"```json......```\"."));
+        //chatMessages.add(new SystemMessage("3.The output must be in JSON format, and any non-JSON content is strictly prohibited. Only output { ... } and avoid using markdown format such as \"```json......```\"."));
         List<ChatMessage> speakMessages = messages.stream().map(UserMessage::new).collect(Collectors.toList());
         chatMessages.addAll(speakMessages);
-        chatMessages.add(new UserMessage("The output must be in JSON format, and any non-JSON content is strictly prohibited. Only output { ... }"));
-        chatMessages.add(new UserMessage("Avoid using markdown format such as \"```json......```\"."));
+        chatMessages.add(new UserMessage("The output must be in JSON format, and any non-JSON content is strictly prohibited. Only output { ... } and avoid using markdown format such as \"```json......```\"."));
+        String outputString = ServiceOutputParser.outputFormatInstructions(SpeakAnalystResp.class);
+        chatMessages.add(new UserMessage(outputString));
+        int token = aiChatModel.estimateTokenCount(chatMessages);
+        System.out.println("toke: " + token);
         Response<AiMessage> generate = aiChatModel.generate(chatMessages);
         System.out.println(generate.content().text());
-//        int token = aiChatModel.estimateTokenCount(messages.toString());
-//        System.out.println(token);
-//        SpeakAnalystResp sut = agent.speakAnalyseWithPojo(messages);
-//        System.out.println(sut.toString());
     }
 
     public <T> T loadJsonToObject(TypeReference<T> typeReference, String path) {

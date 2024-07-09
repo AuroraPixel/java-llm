@@ -18,19 +18,19 @@ hailiang:
     # 向量模型
     embedding:
       # 供应商
-      provider-name: ollma
+      provider-name: openai
       # 模型名称
-      model-name: all-minilm
+      model-name: sk-gRbZ9FJz2E7c7mwO5JOvp2u2rtoWoAbg12CxDy3Y25eLeDvd
       # api-key
       api-key: sk-gRbZ9FJz2E7c7mwO5JOvp2u2rtoWoAbg12CxDy3Y25eLeDvd
       # url
-      base-url: http://localhost:11434/
+      base-url: https://api.chatanywhere.tech/v1
       store:
         elastic-host: 154.204.60.125
         elastic-port: 9200
         elastic-username: elastic
         elastic-password: admin8989
-        index-name: langchain161345444
+        index-name: 202479
   git:
     client:
       provider-name: gitee

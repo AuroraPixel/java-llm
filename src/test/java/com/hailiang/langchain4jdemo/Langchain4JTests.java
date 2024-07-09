@@ -12,10 +12,14 @@ import com.hailiang.langchain4jdemo.pojo.Persons;
 import com.hailiang.langchain4jdemo.tools.Calculator;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
+import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.document.parser.apache.tika.ApacheTikaDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.data.message.SystemMessage;
+import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
@@ -25,8 +29,10 @@ import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.rag.content.Content;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
+import dev.langchain4j.rag.query.Query;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
@@ -235,8 +241,8 @@ class Langchain4JTests {
     @Test
     void TestEmbedding(){
         Response<Embedding> response = embeddingModel.embed("帮我写一个java的冒泡排序");
-        System.out.println(response.content().vectorAsList().size());
-        System.out.println(response.content().vectorAsList());
+        System.out.println("向量的纬度:"+response.content().vectorAsList().size());
+        System.out.println("文本的向量:"+response.content().vectorAsList());
     }
 
     /**
@@ -244,18 +250,17 @@ class Langchain4JTests {
      */
     @Test
     void TestEmbeddingStore(){
-        //1.存储
-        Response<Embedding> emd = embeddingModel.embed("帮我写一个java的冒泡排序1");
+        //1.原数据
+        TextSegment textSegment = new TextSegment("帮我写一个java的冒泡排序", new Metadata());
+        //向量转换
+        Response<Embedding> emd = embeddingModel.embed(textSegment);
         Embedding content = emd.content();
-        embeddingStore.add(String.valueOf(1),content);
+        //存储
+        embeddingStore.add(content,textSegment);
     }
 
-
-    /**
-     * 文本向量检索
-     */
     @Test
-    void TestSearchEmbeddingStore(){
+    void TestKnowledgeEmbeddingStore(){
         //1.文本1
         TextSegment segment1 = TextSegment.from("人工智能（AI）是计算机科学的一个分支，它涉及模拟人类智能的机器。" +
                 "这些机器可以执行诸如理解自然语言、识别人脸、玩游戏以及进行复杂计算等任务。" +
@@ -272,31 +277,86 @@ class Langchain4JTests {
         //文本转向量
         Embedding content2 = embeddingModel.embed(segment2).content();
         embeddingStore.add(content2,segment2);
+    }
+
+
+    /**
+     * 文本向量检索
+     */
+    @Test
+    void TestSearchEmbeddingStore(){
 
         Embedding queryEmbedding = embeddingModel.embed("什么是人工智能？").content();
         List<EmbeddingMatch<TextSegment>> relevant = embeddingStore.findRelevant(queryEmbedding, 1);
         EmbeddingMatch<TextSegment> embeddingMatch = relevant.get(0);
-        System.out.println(embeddingMatch.score());
-        System.out.println(embeddingMatch.embedded().text());
+        System.out.println("向量相似度:"+embeddingMatch.score());
+        System.out.println("相似文本:"+embeddingMatch.embedded().text());
 
         Embedding queryEmbedding1 = embeddingModel.embed("人工智能在医疗领域的应用有哪些？").content();
         List<EmbeddingMatch<TextSegment>> relevant1 = embeddingStore.findRelevant(queryEmbedding1, 1);
         EmbeddingMatch<TextSegment> embeddingMatch1 = relevant1.get(0);
-        System.out.println(embeddingMatch1.score());
-        System.out.println(embeddingMatch1.embedded().text());
+        System.out.println("向量相似度:"+embeddingMatch1.score());
+        System.out.println("相似文本:"+embeddingMatch1.embedded().text());
 
         Embedding queryEmbedding2 = embeddingModel.embed("机器学习的三种类型是什么？").content();
         List<EmbeddingMatch<TextSegment>> relevant2 = embeddingStore.findRelevant(queryEmbedding2, 1);
         EmbeddingMatch<TextSegment> embeddingMatch2 = relevant2.get(0);
-        System.out.println(embeddingMatch2.score());
-        System.out.println(embeddingMatch2.embedded().text());
+        System.out.println("向量相似度:"+embeddingMatch2.score());
+        System.out.println("相似文本:"+embeddingMatch2.embedded().text());
 
         Embedding queryEmbedding3 = embeddingModel.embed("监督学习和无监督学习的区别是什么？").content();
         List<EmbeddingMatch<TextSegment>> relevant3 = embeddingStore.findRelevant(queryEmbedding3, 1);
         EmbeddingMatch<TextSegment> embeddingMatch3 = relevant3.get(0);
-        System.out.println(embeddingMatch3.score());
-        System.out.println(embeddingMatch3.embedded().text());
+        System.out.println("向量相似度:"+embeddingMatch3.score());
+        System.out.println("相似文本:"+embeddingMatch3.embedded().text());
 
+    }
+
+    @Test
+    void TestRAGChat(){
+        ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+                .embeddingStore(embeddingStore)
+                .embeddingModel(embeddingModel)
+                .maxResults(1) // 最大搜索结果
+                .minScore(0.9) // 最小匹配得分
+                .build();
+
+        //搜索内容
+        Query query = new Query("人工智能在医疗领域之外还有哪些应用？");
+        List<Content> retrieve = contentRetriever.retrieve(query);
+        System.out.println("搜索结果:"+retrieve);
+
+        //提示词
+        List<ChatMessage> chatMessages = new ArrayList<>();
+        chatMessages.add(new SystemMessage("你只能根据提供的知识库内容回答问题,不允许自我发散的回答问题。如果知识库内容为空，请回答不知道。"));
+
+        //搜索内容作为提示词
+        StringBuilder knowledge = new StringBuilder();
+        knowledge.append("知识库内容如下:");
+        for (Content content : retrieve) {
+            knowledge.append(content.textSegment().text()).append("\n");
+        }
+        UserMessage userMessage = new UserMessage(knowledge.toString());
+
+        //用户输入的提示词
+        chatMessages.add(new UserMessage("问题如下:人工智能在医疗领域之外还有哪些应用？"));
+        Response<AiMessage> generate = chatModel.generate(chatMessages);
+        System.out.println("生成结果:"+generate.content().text());
+
+//        生成结果:人工智能在多个领域都有广泛的应用，以下是一些主要的领域：
+//
+//        1. 金融：AI用于风险评估、欺诈检测、智能投资顾问、自动化客户服务等。
+//        2. 教育：个性化学习平台、智能辅导系统、自动评分系统等。
+//        3. 零售和电商：推荐系统、库存管理、价格优化、客户行为分析等。
+//        4. 制造业：自动化生产、质量控制、预测性维护、供应链优化等。
+//        5. 交通和物流：自动驾驶汽车、智能交通管理系统、路线规划、货物追踪等。
+//        6. 农业：精准农业、作物病虫害识别、灌溉管理等。
+//        7. 能源：能源需求预测、电网优化、智能电网管理等。
+//        8. 娱乐：游戏AI、内容推荐、虚拟助手等。
+//        9. 安全与监控：人脸识别、行为分析、威胁检测等。
+//        10. 服务业：聊天机器人、虚拟助手、智能客服等。
+//
+//        这些只是部分例子，实际上，人工智能正在不断地渗透到各个行业中，改变着我们的工作和生活方式。
     }
 
 
