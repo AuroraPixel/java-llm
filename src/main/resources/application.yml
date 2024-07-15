@@ -8,13 +8,13 @@ hailiang:
     # 大模型
     llm:
       # 供应商
-      provider-name: openai
+      provider-name: google
       # 模型名称
-      model-name: qwen-long
+      model-name: gpt-4o
       # url
-      base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      base-url: https://api.oaifree.com/v1
       # api-key
-      api-key: sk-1513783e8ea84bc083e94216ed06a9a7
+      api-key: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJzZXNzaW9uX2lkIjoiZUltQ2RZTXFnUU93a1hBNmZZaFFLdGtKRHBHcXl6Yk4iLCJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJ3YW5nYWlsaXppd2VuQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlfSwiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS9hdXRoIjp7InBvaWQiOiJvcmctV3U3UGNYdXViQVBRTkdNQXY2SFRybHYwIiwidXNlcl9pZCI6InVzZXItZVBhUkUwaFhrSWhIWkpyaDAwMnBuVE5sIn0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwOTI4NjE3NDcxMDY2MTIxNzk1MiIsImF1ZCI6WyJodHRwczovL2FwaS5vcGVuYWkuY29tL3YxIiwiaHR0cHM6Ly9vcGVuYWkub3BlbmFpLmF1dGgwYXBwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3MjA0MjMzMTQsImV4cCI6MTcyMTI4NzMxNCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBtb2RlbC5yZWFkIG1vZGVsLnJlcXVlc3Qgb3JnYW5pemF0aW9uLnJlYWQgb3JnYW5pemF0aW9uLndyaXRlIG9mZmxpbmVfYWNjZXNzIiwiYXpwIjoiVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEcifQ.c5RZwZTdVmwZR28HV-3h9W_5u3dHnPcr3uvbTh_vyUj9k8NI6YEUFn8TWM2nyZlrOwdFC8HmykkUzYTib-kQ9D-2mP-LL6kMl_3g4Siw6tdX7vwvmHXY6Ydda28K-pMmYm4EfX7QHRQtc2oS35Q0Y_IRogOcZNrCADZsFwJzJ-Y6gmR7wCERPnciVGSodbvlPwlnxT0sIVmHJnG0zvgCEEwUoBunCUTOaWBnlNbzwwC1yy-9kHyJBIGp6L0ntDLdIaAcJrUugmQz1vfRQv-xs8hMHecysq7C-_d2F41hemfiirqbxU8D9stIR423tEESywWHieJltrdYmCOUdpsGFA
     # 向量模型
     embedding:
       # 供应商

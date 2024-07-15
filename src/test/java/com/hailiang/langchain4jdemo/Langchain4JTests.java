@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
@@ -75,10 +76,49 @@ class Langchain4JTests {
     void TestChatModel() {
         String response = chatModel.generate("你是谁，你最大支持多大token?");
         System.out.println(response);
-        String response1 = chatModel.generate("我刚刚提问了什么?");
+        String response1 = chatModel.generate("你能识别语音吗?");
         System.out.println(response1);
-//        String response1 = chatModel.generate("你是openai研发的吗?");
-//        System.out.println(response1);
+        String response2 = chatModel.generate("你是openai研发的吗?");
+        System.out.println(response2);
+        String response3 = chatModel.generate("你能干什么?");
+        System.out.println(response3);
+        String response4 = chatModel.generate("你的免费试用的qps是多少?");
+        System.out.println(response4);
+        String response5 = chatModel.generate("帮我写一首你自己创造的中国唐诗?");
+        System.out.println(response5);
+    }
+
+
+    @Test
+    void TestChatModelThread(){
+        ExecutorService executor = Executors.newFixedThreadPool(6); // Create a thread pool with 6 threads
+
+        Callable<String> task1 = () -> chatModel.generate("你是谁，你最大支持多大token?");
+        Callable<String> task2 = () -> chatModel.generate("你能识别语音吗?");
+        Callable<String> task3 = () -> chatModel.generate("你是openai研发的吗?");
+        Callable<String> task4 = () -> chatModel.generate("你能干什么?");
+        Callable<String> task5 = () -> chatModel.generate("你的免费试用的qps是多少?");
+        Callable<String> task6 = () -> chatModel.generate("帮我写一首你自己创造的中国唐诗?");
+
+        try {
+            Future<String> response1 = executor.submit(task1);
+            Future<String> response2 = executor.submit(task2);
+            Future<String> response3 = executor.submit(task3);
+            Future<String> response4 = executor.submit(task4);
+            Future<String> response5 = executor.submit(task5);
+            Future<String> response6 = executor.submit(task6);
+
+            System.out.println(response1.get());
+            System.out.println(response2.get());
+            System.out.println(response3.get());
+            System.out.println(response4.get());
+            System.out.println(response5.get());
+            System.out.println(response6.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        } finally {
+            executor.shutdown();
+        }
     }
 
 
@@ -105,7 +145,7 @@ class Langchain4JTests {
         });
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(100000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
