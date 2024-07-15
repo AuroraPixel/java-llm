@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -124,22 +125,27 @@ public class LLModelLoadConfig {
 
     public Map<String, ChatLanguageModel> chatLanguageModels() {
         //设置系统环境变量
-//        setEnv("GOOGLE_APPLICATION_CREDENTIALS","/Users/hljy/google_token/google_token_wang.json");
-//        String wangProject = "golden-object-429501-a6";
-        setEnv("GOOGLE_APPLICATION_CREDENTIALS","/Users/hljy/google_token/google_token_ww.json");
-        String wwProject = "elevated-heaven-429203-g3";
+        Map<String, String> projectEnvMap = new HashMap<>();
+        //projectEnvMap.put("/Users/hljy/google_token/google_token_wang.json", "golden-object-429501-a6");
+        projectEnvMap.put("/Users/hljy/google_token/google_token_ww.json", "elevated-heaven-429203-g3");
 
-        List<String> locations = Stream.of("northamerica-northeast1", "southamerica-east1", "us-central1", "us-east1", "us-east4", "us-east5", "us-south1", "us-west1", "us-west4", "europe-central2", "europe-north1", "europe-southwest1") // 添加所有20多个location
+        List<String> locations = Stream.of("northamerica-northeast1", "southamerica-east1", "us-central1", "us-east1", "us-east4", "us-east5", "us-south1", "us-west1", "us-west4", "europe-central2", "europe-north1", "europe-southwest1")
+                // 添加所有20多个location
                 .collect(Collectors.toList());
-        return locations.stream()
-                .collect(Collectors.toMap(
-                        location -> location,
-                        location -> VertexAiGeminiChatModel.builder()
-                                .project(wwProject)
-                                .location(location)
-                                .modelName("gemini-1.5-flash")
-                                .build()
-                ));
+        Map<String, ChatLanguageModel> modelMap = new HashMap<>();
+        projectEnvMap.forEach((env, project) -> {
+            setEnv("GOOGLE_APPLICATION_CREDENTIALS", env);
+            locations.forEach(location -> {
+                String key = project + "-" + location;
+                ChatLanguageModel model = VertexAiGeminiChatModel.builder()
+                        .project(project)
+                        .location(location)
+                        .modelName("gemini-1.5-flash")
+                        .build();
+                modelMap.put(key, model);
+            });
+        });
+        return modelMap;
     }
 
     @Bean
